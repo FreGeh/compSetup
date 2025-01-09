@@ -1,7 +1,18 @@
+# Introduction
+
+Welcome to the **Competitive Programming Setup Guide**, utilizing a **proven** and **efficient setup** for long-term success! Competitive programming is an incredible way to sharpen your **problem-solving skills**, improve your **algorithmic thinking**, and build confidence in tackling challenging technical problems. 
+
+Whether you're aiming to excel in **contests** like **ICPC** or enhance your coding abilities for **technical interviews**, this guide gets you started quickly and effectively.
+
+By **following** this **guide**, you'll:
+- Set up a **contest-like** development environment.
+- Master a **pro-like** yet **simple setup** for coding challenges.
+- Learn how to **solve problems** on platforms like **Codeforces** from start to finish.
+
 # Table of Contents
 - [Environment Setup](#environment-setup)
   - [WSL Setup (Windows Users)](#wsl-setup-windows-users)
-    - [Optional: Rename Instance](#optional-rename-instance)
+    - [Optional: Rename Instance](#optional-rename-wsl-instance)
   - [Ubuntu Setup (Everyone)](#ubuntu-setup-everyone)
 - [Solve a Problem on Codeforces](#solve-a-problem-on-codeforces)
   - [1. Choose a Problem](#1-choose-a-problem)
@@ -10,8 +21,6 @@
   - [4. Submit Your Solution](#4-submit-your-solution)
 - [Explanations](#explanations)
   - [program.cpp](#programcpp)
-    - [Head](#head)
-    - [Body](#body)
   - [debug.h](#debugh)
 - [Commandline Usage](#commandline-usage)
   - [Compiling](#compiling)
@@ -30,7 +39,10 @@ Since platforms like **Codeforces** and local contests like ICPC run on **Linux-
 3. **Restart** your PC.
 4. **Launch Ubuntu** from the Start Menu and set up your user.
 
-### Optional: Rename Instance
+### Optional: Rename WSL Instance
+<details>
+<summary>Click to expand</summary>
+
 If you already have WSL installed or plan to have multiple instances, organizing them helps.
 
 1. **Open** a new PowerShell/Terminal (Admin).
@@ -40,6 +52,8 @@ If you already have WSL installed or plan to have multiple instances, organizing
 5. **Unregister** the instance: `wsl --unregister Ubuntu-24.04`.
 6. **Register** the instance with a custom name: `wsl --import CompetitiveProgramming C:\WSL\CompetitiveProgramming C:\WSL\UbuntuBackup.tar`.
 7. Open Terminal and **select** your **new Ubuntu instance** `CompetitiveProgramming` from the `+` dropdown.
+</details>
+
 
 ## Ubuntu Setup (Everyone)
 1. **Update** everything: `sudo apt update && sudo apt upgrade -y`.
