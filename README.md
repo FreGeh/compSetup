@@ -27,6 +27,7 @@ By **following** this **guide**, you'll:
   - [debug.h](#debugh)
 - [Where to Go Next](#where-to-go-next)
     - [Online Resources](#online-resources)
+    - [Tools](#tools)
 - [Contribute](#contribute)
 
 # Environment Setup
@@ -109,28 +110,18 @@ If you already have WSL installed or plan to have multiple instances, organizing
 ## program.cpp
 
 ### Head
-`#include <bits/stdc++.h>` to include all **standard library headers**. *You can also include each header separately.*
-`using namespace std;` to avoid the annoying prefix `std::`.
-`typedef long long ll;` to shorten `long long` to `ll`.
-
-```cpp
-#ifdef DEBUG
-#include "debug.h"
-#else
-#define debug(...) do { } while(0)
-#endif
-```
-**Conditional compilation**: Include **debug utilities** if defined (`-DDEBUG`) by including our own debug header file. Otherwise, the debug function does nothing.
+- `#include <bits/stdc++.h>`: Includes all standard library headers in one line. *(Use individual headers to slightly reduce compilation time.)*
+- `using namespace std;`: Avoids the repetitive prefix `std::`.
+- `typedef long long ll;`: Shortens `long long` to `ll`.
+- `#ifdef DEBUG` **Conditional compilation**: If compiled with (`-DDEBUG`) includes custom **debug utilities** `#include "debug.h"`. Otherwise `#define debug(...) do { } while(0)` to not interfere if accidentally still used in code.
 
 ### Body
-`void solve()` is the function where you handle the logic for each test case. Variables are taken from `cin`, and results are outputted via `cout`.
+`void solve()` The main logic for each test case goes here. Inputs are read via `cin` and results are output via `cout`. 
 
-The `main()` function manages setup and execution:
-- Optimizes I/O with `ios::sync_with_stdio(false);`.
-- Disables automatic flushing of `cout` unless debugging is enabled.
-- Reads the number of test cases and executes `solve()` for each.
-
-If the problem has no test cases, set `int tests = 1` and comment out `cin >> tests;`.
+`main()` **Function**: Handles setup and test case execution:
+- Optimizes I/O: `ios::sync_with_stdio(false);` speeds up input/output operations. 
+- Automatic flushing enabled `cin.tie(nullptr);` when not debugging: `#ifndef DEBUG`.
+- Reads the number of test cases `tests` and calls `solve()` for each. *(Tip: If the problem has no test cases, set `int tests = 1` and comment out `cin >> tests;`)*
 
 ## debug.h
 - `#pragma once`: Ensures the header file is included **only once** in the program to prevent redefinitions.
@@ -148,7 +139,7 @@ This setup allows efficient debugging by integrating **variable inspection** dir
 
 Competitive Programming is a **transformative journey** that changes how you approach problems in all aspects of life. It enhances your **logical thinking**, benefits your **career**, and strengthens your **studies**. Start exploring further to continuously improve and grow.
 
-# Online Resources
+## Online Resources
 - **Codeforces** (Top problem-solving platform): [codeforces.com](https://codeforces.com/)
 - **CP-Algorithms Wiki** (Helpful articles and guides): [cp-algorithms.com](https://cp-algorithms.com/)
 - **GeeksforGeeks CP Handbook** (Step-by-step chapters): [geeksforgeeks.org/competitive-programming-cp-handbook-with-complete-roadmap](https://www.geeksforgeeks.org/competitive-programming-cp-handbook-with-complete-roadmap/)
@@ -157,6 +148,9 @@ Competitive Programming is a **transformative journey** that changes how you app
   - Advanced Algorithms: [ocw.mit.edu/courses/6-854j-advanced-algorithms-fall-2008](https://ocw.mit.edu/courses/6-854j-advanced-algorithms-fall-2008/)
 - **Algorithms by Robert Sedgewick and Kevin Wayne** (Highly-rated online book): [algs4.cs.princeton.edu/home](https://algs4.cs.princeton.edu/home/)
 - **CP Ressources Wiki**: [github.com/lnishan/awesome-competitive-programming](https://github.com/lnishan/awesome-competitive-programming)
+
+## Tools
+- **Tampermonkey Script** (Highlights relevant math variables/notations so you can read problems easier): [greasyfork.org](https://greasyfork.org/en/scripts/521888-math-variables-and-notations-highlighter)(*made by me*)
 
 # Contribute
 
@@ -173,3 +167,5 @@ I would appreciate any help to keep it up to date and fix any errors and add imp
 - better explanations that are precise and understandable even for beginners
 - add screenshots/gifs where needed
 - improve visual appeal
+- youtube video going through everything
+    - showing how to solve any problem with it

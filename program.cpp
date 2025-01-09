@@ -11,7 +11,7 @@ using namespace std;
 
 void solve() {
     // Code for each testcase:
-    // Example: Median Number
+    // Example: Median Number (https://codeforces.com/contest/1760/problem/A)
     vector<int> array(3);
     for (int i = 0; i < 3; i++) {
         cin >> array[i];
