@@ -137,7 +137,7 @@ This setup allows efficient debugging by integrating **variable inspection** dir
 
 # Where to Go Next
 
-Competitive Programming is a **transformative journey** that changes how you approach problems in all aspects of life. It enhances your **logical thinking**, benefits your **career**, and strengthens your **studies**. Start exploring further to continuously improve and grow.
+Competitive Programming is a **transformative journey** that seems way too big and complicated at the beginning, but let's you gradually improve and understand more about many aspects of modern Computer Science. So don't give up easily, but keep going by solving a problem each day :)
 
 ## Online Resources
 - **Codeforces** (Top problem-solving platform): [codeforces.com](https://codeforces.com/)
