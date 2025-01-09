@@ -1,7 +1,7 @@
+![Stars](https://img.shields.io/github/stars/FreGeh/competitiveProgrammingSetup.svg) ![Forks](https://img.shields.io/github/forks/FreGeh/competitiveProgrammingSetup.svg) ![Issues](https://img.shields.io/github/issues/FreGeh/competitiveProgrammingSetup.svg)
 # Introduction
 
-Welcome to the **Competitive Programming Setup Guide**, utilizing a **proven** and **efficient setup** for long-term success! Competitive programming is an incredible way to sharpen your **problem-solving skills**, improve your **algorithmic thinking**, and build confidence in tackling challenging technical problems. 
-
+Welcome to the **Competitive Programming Setup Guide**, utilizing a **proven** and **efficient setup** for long-term success!
 Whether you're aiming to excel in **contests** like **ICPC** or enhance your coding abilities for **technical interviews**, this guide gets you started quickly and effectively.
 
 By **following** this **guide**, you'll:
@@ -19,13 +19,15 @@ By **following** this **guide**, you'll:
   - [2. Solve the Problem](#2-solve-the-problem)
   - [3. Compile and Test Locally](#3-compile-and-test-locally)
   - [4. Submit Your Solution](#4-submit-your-solution)
-- [Explanations](#explanations)
-  - [program.cpp](#programcpp)
-  - [debug.h](#debugh)
 - [Commandline Usage](#commandline-usage)
   - [Compiling](#compiling)
   - [Input and Output](#input-and-output)
+- [Explanations](#explanations)
+  - [program.cpp](#programcpp)
+  - [debug.h](#debugh)
 - [Where to Go Next](#where-to-go-next)
+    - [Online Resources](#online-resources)
+- [Contribute](#contribute)
 
 # Environment Setup
 
@@ -85,6 +87,23 @@ If you already have WSL installed or plan to have multiple instances, organizing
 1. Scroll down and select `GNU G++20` under `Submit?`. **Upload your c++ code**, then click `Submit`.
 2. Check your **submissions page** for the verdict. If a test fails, copy the test case to debug locally.
 
+
+# Commandline Usage
+
+## Compiling
+`g++ -std=c++20 -O2 -Wall -DDEBUG program.cpp -o program`
+
+- **`g++`**: GNU Compiler Collection (GCC) **C++ Compiler**.
+- **`-std=c++20`**: Specifies that the **C++20 standard** should be used.
+- **`-O2`**: Enables **level 2 optimizations** during compilation, improving runtime performance.
+- **`-Wall`**: Activates all **basic warning** messages.
+- **`-DDEBUG`**: Includes our **debug utilities** if required.
+- **`-o program`**: Specify the name of the **output file**.
+
+## Input and Output
+- `./program < input.txt`: Uses `input.txt` as input.
+- `./program < input.txt > output.txt`: Saves output to `output.txt`.
+
 # Explanations
 
 ## program.cpp
@@ -124,27 +143,12 @@ If the problem has no test cases, set `int tests = 1` and comment out `cin >> te
 
 This setup allows efficient debugging by integrating **variable inspection** directly into your code **without impacting the production build**.
 
-# Commandline Usage
-
-## Compiling
-`g++ -std=c++20 -O2 -Wall -DDEBUG program.cpp -o program`
-
-- **`g++`**: GNU Compiler Collection (GCC) **C++ Compiler**.
-- **`-std=c++20`**: Specifies that the **C++20 standard** should be used.
-- **`-O2`**: Enables **level 2 optimizations** during compilation, improving runtime performance.
-- **`-Wall`**: Activates all **basic warning** messages.
-- **`-DDEBUG`**: Includes our **debug utilities** if required.
-- **`-o program`**: Specify the name of the **output file**.
-
-## Input and Output
-- `./program < input.txt`: Uses `input.txt` as input.
-- `./program < input.txt > output.txt`: Saves output to `output.txt`.
 
 # Where to Go Next
 
 Competitive Programming is a **transformative journey** that changes how you approach problems in all aspects of life. It enhances your **logical thinking**, benefits your **career**, and strengthens your **studies**. Start exploring further to continuously improve and grow.
 
-## Online Resources
+# Online Resources
 - **Codeforces** (Top problem-solving platform): [codeforces.com](https://codeforces.com/)
 - **CP-Algorithms Wiki** (Helpful articles and guides): [cp-algorithms.com](https://cp-algorithms.com/)
 - **GeeksforGeeks CP Handbook** (Step-by-step chapters): [geeksforgeeks.org/competitive-programming-cp-handbook-with-complete-roadmap](https://www.geeksforgeeks.org/competitive-programming-cp-handbook-with-complete-roadmap/)
@@ -153,3 +157,19 @@ Competitive Programming is a **transformative journey** that changes how you app
   - Advanced Algorithms: [ocw.mit.edu/courses/6-854j-advanced-algorithms-fall-2008](https://ocw.mit.edu/courses/6-854j-advanced-algorithms-fall-2008/)
 - **Algorithms by Robert Sedgewick and Kevin Wayne** (Highly-rated online book): [algs4.cs.princeton.edu/home](https://algs4.cs.princeton.edu/home/)
 - **CP Ressources Wiki**: [github.com/lnishan/awesome-competitive-programming](https://github.com/lnishan/awesome-competitive-programming)
+
+# Contribute
+
+Thank you for the interest in this page :)
+I would appreciate any help to keep it up to date and fix any errors and add improvements if needed.
+
+## How
+1. For new additions or specific modifications create [Pull Requests](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request)
+2. For general suggestions create an [Issue](https://github.com/FreGeh/competitiveProgrammingSetup/issues/new/choose)
+3. Or just message me directly per E-Mail (fregeh7@gmail.com)  
+
+## ToDos
+- add more ressources, but keep it short
+- better explanations that are precise and understandable even for beginners
+- add screenshots/gifs where needed
+- improve visual appeal
