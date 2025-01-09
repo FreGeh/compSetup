@@ -75,10 +75,10 @@ If you already have WSL installed or plan to have multiple instances, organizing
 ## 2. Solve the Problem
 1. **Read** the problem description carefully.
 2. **Paste** the **example input** into `input.txt` and the example output into `output.txt`.
-3. **Think of a solution** and write it in the `void run_case()` function.
+3. **Think of a solution** and write it in the `void solve()` function.
 
 ## 3. Compile and Test Locally
-1. **Open** your **Ubuntu Terminal** in `~/CompetitiveProgramming` and compile your code: `g++ -std=c++20 -O2 -Wall program.cpp -o program`.
+1. **Open** your **Ubuntu Terminal** `cd ~/CompetitiveProgramming` and compile your code: `g++ -std=c++20 -O2 -Wall program.cpp -o program`.
 2. **Test** with example input: `./program < input.txt`.
 3. **Compare** output:
    - If **correct**, submit.
@@ -86,13 +86,15 @@ If you already have WSL installed or plan to have multiple instances, organizing
 
 ## 4. Submit Your Solution
 1. Scroll down and select `GNU G++20` under `Submit?`. **Upload your c++ code**, then click `Submit`.
-2. Check your **submissions page** for the verdict. If a test fails, copy the test case to debug locally.
+2. Check your **submissions page** for the verdict. If a test fails, copy the test case to debug locally further.
 
 
 # Commandline Usage
 
 ## Compiling
-`g++ -std=c++20 -O2 -Wall -DDEBUG program.cpp -o program`
+```sh
+g++ -std=c++20 -O2 -Wall -DDEBUG program.cpp -o program
+```
 
 - **`g++`**: GNU Compiler Collection (GCC) **C++ Compiler**.
 - **`-std=c++20`**: Specifies that the **C++20 standard** should be used.
@@ -102,32 +104,32 @@ If you already have WSL installed or plan to have multiple instances, organizing
 - **`-o program`**: Specify the name of the **output file**.
 
 ## Input and Output
-- `./program < input.txt`: Uses `input.txt` as input.
-- `./program < input.txt > output.txt`: Saves output to `output.txt`.
+- **`./program < input.txt`**: Uses `input.txt` as input.
+- **`./program < input.txt > output.txt`**: Saves output to `output.txt`.
 
 # Explanations
 
 ## program.cpp
 
 ### Head
-- `#include <bits/stdc++.h>`: Includes all standard library headers in one line. *(Use individual headers to slightly reduce compilation time.)*
-- `using namespace std;`: Avoids the repetitive prefix `std::`.
-- `typedef long long ll;`: Shortens `long long` to `ll`.
-- `#ifdef DEBUG` **Conditional compilation**: If compiled with (`-DDEBUG`) includes custom **debug utilities** `#include "debug.h"`. Otherwise `#define debug(...) do { } while(0)` to not interfere if accidentally still used in code.
+- **`#include <bits/stdc++.h>`**: Includes all standard library headers in one line. *(Use individual headers to slightly reduce compilation time.)*
+- **`using namespace std;`**: Avoids the repetitive prefix `std::`.
+- **`typedef long long ll;`**: Shortens `long long` to `ll`.
+- **`#ifdef DEBUG`** **Conditional compilation**: If compiled with (**`-DDEBUG`**) includes custom **debug utilities** `#include "debug.h"`. Otherwise `#define debug(...) do { } while(0)` to not interfere if accidentally still used in code.
 
 ### Body
-`void solve()` The main logic for each test case goes here. Inputs are read via `cin` and results are output via `cout`. 
+**`void solve()`** The main logic for each test case goes here. Inputs are read via `cin` and results are output via `cout`. 
 
-`main()` **Function**: Handles setup and test case execution:
+**`main()`** **Function**: Handles setup and test case execution:
 - Optimizes I/O: `ios::sync_with_stdio(false);` speeds up input/output operations. 
 - Automatic flushing enabled `cin.tie(nullptr);` when not debugging: `#ifndef DEBUG`.
 - Reads the number of test cases `tests` and calls `solve()` for each. *(Tip: If the problem has no test cases, set `int tests = 1` and comment out `cin >> tests;`)*
 
 ## debug.h
-- `#pragma once`: Ensures the header file is included **only once** in the program to prevent redefinitions.
-- `dbg_out()` (base case): Prints a newline when no arguments are passed, acting as the **termination point** for recursive calls.
-- `dbg_out(Head, Tail...)`: A templated function that recursively processes and outputs multiple arguments to `cerr`, separated by spaces.
-- `#define debug(...)`: A **macro** that:
+- **`#pragma once`**: Ensures the header file is included **only once** in the program to prevent redefinitions.
+- **`dbg_out()`** (base case): Prints a newline when no arguments are passed, acting as the **termination point** for recursive calls.
+- **`dbg_out(Head, Tail...)`**: A templated function that recursively processes and outputs multiple arguments to `cerr`, separated by spaces.
+- **`#define debug(...)`**: A **macro** that:
   - Prints debug messages to `cerr` in red (`\033[31m`), including the **file name** (`__FILE__`) and **line number** (`__LINE__`) where the macro is called.
   - **Formats** the **output** by displaying the variable names (`#__VA_ARGS__`) followed by their values, leveraging the `dbg_out` function.
   - **Resets text formatting** with `\033[0m`.
