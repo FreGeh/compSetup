@@ -62,7 +62,7 @@ If you already have WSL installed or plan to have multiple instances, organizing
 2. Install **development tools**: `sudo apt install -y build-essential git`.
 3. Install your preferred **IDE** or **text editor** (e.g., install **Visual Studio Code** on **Windows**: https://code.visualstudio.com/download, and add the **extensions** `WSL` and `C/C++`).
 4. **Clone** this **GitHub repo**: `git clone https://github.com/FreGeh/competitiveProgrammingSetup.git CompetitiveProgramming`.
-5. Navigate to the new folder: `~/CompetitiveProgramming`.
+5. Navigate to the new folder: `cd CompetitiveProgramming/`.
 6. Open the folder or `program.cpp` in your IDE/text editor (**VSCode**: `code .`).
 
 # Solve a Problem on Codeforces
