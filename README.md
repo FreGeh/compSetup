@@ -19,7 +19,7 @@ By **following** this **guide**, you'll:
 - [Contribute](#contribute)
 
 # Guide
-[Here](./GUIDE.md) I write down everything I learn about competitive programming in C++
+[Here](./GUIDE.md) I write down everything I learn on competitive programming in C++
 # Environment Setup
 
 ## WSL Setup (Windows Users)

@@ -1,5 +1,3 @@
-Here I write down everything I learn for competitive programming in C++:
-
 # Practical
 ## Reading Input
 - `cin >>` reads whole string till space
