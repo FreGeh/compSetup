@@ -2,6 +2,7 @@
 ## Reading Input
 - `cin >>` reads whole string till space
 - `cin.get(c)` reads `char c`, also spaces and `\n`
+- `vector<char> S(tmp.begin(), tmp.end())` seperates string into char vector
 
 ### Example for $n$ numbers
 ```cpp
@@ -11,8 +12,14 @@ vector<int> N(n);
 for (int &x: N) cin >> x;
 ```
 
+## Output
+- `(boolFunction() ? "true" : "false")` to automatically output a string depending on the bool value
+
 ## Math Tricks
 - Round Up in fractions, use `a+b-1/b` instead of `a/b`.
+
+## STDL Tricks
+- To Check if Vector `S` is Palindrome: `equal(S.begin(), S.begin() + S.size() / 2, S.rbegin());`
 
 # Theory
 ## Strategies
