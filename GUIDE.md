@@ -1,4 +1,4 @@
-Here I write down everything I learn:
+Here I write down everything I learn for competitive programming in C++:
 
 # Practical
 ## Reading Input
@@ -66,5 +66,13 @@ function binarySearch(A, target)
 # Random
 
 ## Git
-`git add *.md` so I don't add changed simple.cpp, etc.
-`git wipe` to reset repo to github status
+- `git add *.md` so I don't add changed simple.cpp, etc.
+- `git wipe` macro to reset repo to github status, the setup in `~/.gitconfig` is:
+```
+[alias]
+  wipe = "!f() { \
+      git fetch --all --prune && \
+      git reset --hard @{u} && \
+      git clean -fdx; \
+    }; f"
+```

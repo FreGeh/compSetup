@@ -1,4 +1,3 @@
-![Stars](https://img.shields.io/github/stars/FreGeh/competitiveProgrammingSetup.svg) ![Forks](https://img.shields.io/github/forks/FreGeh/competitiveProgrammingSetup.svg) ![Issues](https://img.shields.io/github/issues/FreGeh/competitiveProgrammingSetup.svg)
 # Introduction
 
 Welcome to the **Competitive Programming Setup Guide**, utilizing a **proven** and **efficient setup** for long-term success!
