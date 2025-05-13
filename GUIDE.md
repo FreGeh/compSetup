@@ -4,6 +4,15 @@ Here I write down anything I learn:
 `cin >>` reads whole string till space
 `cin.get(c)` reads `char c`, also spaces
 
+for n numbers:
+``int n;
+    cin >> n;
+    vector<int> N(n);
+    for (int &x : N) {
+        cin >> x;
+    }
+``
+
 # Math Tricks
 To round up in fractions, use `a+b-1/b` instead of `a/b`.
 
