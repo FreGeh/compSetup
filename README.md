@@ -18,6 +18,8 @@ By **following** this **guide**, you'll:
 - [Where to Go Next](#where-to-go-next)
 - [Contribute](#contribute)
 
+# Guide
+[Here](./GUIDE.md) I write down everything I learn about competitive programming in C++
 # Environment Setup
 
 ## WSL Setup (Windows Users)
