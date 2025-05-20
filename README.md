@@ -1,4 +1,3 @@
-![Stars](https://img.shields.io/github/stars/FreGeh/competitiveProgrammingSetup.svg) ![Forks](https://img.shields.io/github/forks/FreGeh/competitiveProgrammingSetup.svg) ![Issues](https://img.shields.io/github/issues/FreGeh/competitiveProgrammingSetup.svg)
 # Introduction
 
 Welcome to the **Competitive Programming Setup Guide**, utilizing a **proven** and **efficient setup** for long-term success!
@@ -12,24 +11,15 @@ By **following** this **guide**, you'll:
 # Table of Contents
 - [Environment Setup](#environment-setup)
   - [WSL Setup (Windows Users)](#wsl-setup-windows-users)
-    - [Optional: Rename Instance](#optional-rename-wsl-instance)
   - [Ubuntu Setup (Everyone)](#ubuntu-setup-everyone)
 - [Solve a Problem on Codeforces](#solve-a-problem-on-codeforces)
-  - [1. Choose a Problem](#1-choose-a-problem)
-  - [2. Solve the Problem](#2-solve-the-problem)
-  - [3. Compile and Test Locally](#3-compile-and-test-locally)
-  - [4. Submit Your Solution](#4-submit-your-solution)
 - [Commandline Usage](#commandline-usage)
-  - [Compiling](#compiling)
-  - [Input and Output](#input-and-output)
 - [Explanations](#explanations)
-  - [program.cpp](#programcpp)
-  - [debug.h](#debugh)
 - [Where to Go Next](#where-to-go-next)
-    - [Online Resources](#online-resources)
-    - [Tools](#tools)
 - [Contribute](#contribute)
 
+# Guide
+[Here](./GUIDE.md) I write down everything I learn on competitive programming in C++
 # Environment Setup
 
 ## WSL Setup (Windows Users)

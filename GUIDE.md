@@ -1,10 +1,23 @@
-Here I write down anything I learn:
+# Practical
+## Reading Input
+- `cin >>` reads whole string till space
+- `cin.get(c)` reads `char c`, also spaces and `\n`
+- `vector<char> S(tmp.begin(), tmp.end())` seperates string into char vector
 
 # Workflow
 1. `g++ -std=c++20 -O2 -Wall program.cpp -o program`
 2. `./program < input.txt`
 
 # Basics C++
+
+## Output
+- `(boolFunction() ? "true" : "false")` to automatically output a string depending on the bool value
+
+## Math Tricks
+- Round Up in fractions, use `a+b-1/b` instead of `a/b`.
+
+## STDL Tricks
+- To Check if Vector `S` is Palindrome: `equal(S.begin(), S.begin() + S.size() / 2, S.rbegin());`
 
 ## Input/Output
 `cin >>` reads whole string till space
@@ -35,6 +48,20 @@ Local optimal decisions need to be globally optimal, since it doesn't take back 
 
 ## Divide & Conquer
 - **BinarySearch**: Search for biggest element in sorted list. Split up search space each round.
+```pseudo
+function binarySearch(A, target)
+    low  ← 0
+    high ← length(A) − 1
+    while low ≤ high do
+        mid ← low + (high − low) / 2      // avoids overflow
+        if A[mid] = target then
+            return mid                     // found
+        else if A[mid] < target then
+            low ← mid + 1                  // search right half
+        else
+            high ← mid − 1                 // search left half
+    return −1                              // not found
+```
 
 ## Backtracking
 1. **Filter**: Generate all possible candidates (raw recursion - validation at end)
@@ -128,3 +155,11 @@ for(int64_t i = 1; i <= n; ++i)
 To round up in fractions, use `a+b-1/b` instead of `a/b`.
 
 # Complexity
+## Output
+- `(boolFunction() ? "true" : "false")` to automatically output a string depending on the bool value
+
+## Math Tricks
+- Round Up in fractions, use `a+b-1/b` instead of `a/b`.
+
+## STDL Tricks
+- To Check if Vector `S` is Palindrome: `equal(S.begin(), S.begin() + S.size() / 2, S.rbegin());`
