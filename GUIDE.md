@@ -135,6 +135,9 @@ for(int64_t i = 1; i <= n; ++i)
 }
 ```
 
+### Longest Subsequence
+**Given**:
+- 
 
 ## Interactive (Queries)
 
