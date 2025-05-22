@@ -146,6 +146,46 @@ for(int64_t i = 1; i <= n; ++i)
 ## Sort & Search
 
 ## Graphs
+### Data Structures
+#### Adjacency Matrice
+#### Adjacency List
+#### Edge List
+
+### BFS
+```cpp
+int s = 42; // Startknoten
+queue<int> q;
+q.push(s);
+// n = Anzahl Knoten
+vector<int> dist(n, INF); dist[s] = 0;
+while (!q.empty()) {
+    int v = q.front();
+    q.pop();
+}
+for (int w : adjlist[v]) {
+    if ( dist [w] == INF) {
+        dist [w] = dist[v] + 1;
+        q.push(w);
+    }
+}
+```
+
+### DFS
+```cpp
+void visit ( int v , vector <bool > & visited ) {
+    visited [v] = true ;
+    for (int w : adjlist [ v ]) {
+        if (! visited [ w ]) {
+            visit (w , visited );
+        }
+    }
+}
+// n = Anzahl Knoten
+vector <bool > visited (n , false );
+visit ( s ); // s = Startknoten .
+```
+
+### Floyd-Warshall
 
 ## Strings
 
