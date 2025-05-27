@@ -148,44 +148,120 @@ for(int64_t i = 1; i <= n; ++i)
 ## Graphs
 ### Data Structures
 #### Adjacency Matrice
+- **Description**: $n \times n$ Matrice. $A_{i,j}=1$ means there is an edge from vertice $i$ to $j$
+- **Space**: $O(n^2)$
+- **Count Neighbours**: $O(n)$
+- **Test Edge**: $O(1)$
+- **Implementation**: ``vector<vector<bool>> A(n, vector<bool>(n, false))``
+
 #### Adjacency List
+- **Description**: List with $n$ Entries, each having an array containing all vertices it's connected to.
+- **Space**: $O(n+m)$
+- **Count Neighbours**: $O(|\text{neighbours}|)$
+- **Test Edge**: $O(|\text{neighbours}|)$
+- **Implementation**: ``vector<vector<int>> &adjlist``
+
 #### Edge List
+- **Description**: List of all Edges displayed as a pair of the connected vertices
+- **Space**: $O(m)$
+- **Count Neighbours**: $O(m)$
+- **Test Edge**: $O(m)$
+- **Implementation**: ``vector<pair<int,int>> edges``
 
 ### BFS
+- **Purpose**: Find shortest paths in unweighted Graph (and discover connectivity by layers)
+- **Description**: Level‐by‐level (breadth‐first) exploration from the start vertex $s$
+- **Runtime**: $O(n+m)$
+- **Input**: Adjacency List, Starting Vertice $s$
+- **Output**: 
+- **Code**:
 ```cpp
 int s = 42; // Startknoten
+vector<vector<int>> &adjlist;
+int n = adjlist.size();
+
 queue<int> q;
 q.push(s);
-// n = Anzahl Knoten
-vector<int> dist(n, INF); dist[s] = 0;
+
+vector<int> dist(n, INF), parent(n, -1);
+dist[s] = 0;
+parent[s] = -1;
+
 while (!q.empty()) {
     int v = q.front();
     q.pop();
-}
-for (int w : adjlist[v]) {
-    if ( dist [w] == INF) {
-        dist [w] = dist[v] + 1;
-        q.push(w);
+
+    for (int w : adjlist[v]) {
+        if (dist[w] == INF) {
+            dist[w] = dist[v] + 1;
+            parent[w] = v;
+            q.push(w);
+        }
     }
+}
+```
+and for the output:
+``` cpp
+for (int w = 0; w < n; ++w) {
+    if (parent[w] != -1)
+        cout << parent[w] << " --> " << w 
+             << "  (dist=" << dist[w] << ")\n";
 }
 ```
 
 ### DFS
+- **Purpose**: Detect connectivity, reachability, cycles. Construct Paths. Perform topological sorting. Solve *backtracking* problems.
+- **Description**: Explores Graph greedy from starting vertice $s$
+- **Runtime**: $O(n+m)$
+- **Input**: Adjacency List, Starting Vertice
+- **Output**: DFS Tree
+- **Code**:
 ```cpp
-void visit ( int v , vector <bool > & visited ) {
-    visited [v] = true ;
-    for (int w : adjlist [ v ]) {
-        if (! visited [ w ]) {
-            visit (w , visited );
+void visit(int v, vector<bool> &visited, vector<int> &parent) {
+    visited[v] = true;
+    for (int w : adjlist[v]) {
+        if (!visited[w]) {
+            parent[w] = v;
+            visit(w, visited, parent);
         }
     }
 }
+```
+to kick of the search and get the output:
+```cpp
+vector<vector<int>> &adjlist;
 // n = Anzahl Knoten
-vector <bool > visited (n , false );
-visit ( s ); // s = Startknoten .
+vector<bool> visited(n, false);
+vector<int>  parent(n, -1);
+visit(s, visited, parent); // s = Startknoten
+
+// get DFS tree
+for (int w = 0; w < n; ++w) {
+  if (parent[w] != -1)
+    cout << parent[w] << " --> " << w << "\n";
+}
 ```
 
 ### Floyd-Warshall
+- **Purpose**: Find all shortest Paths in a (weighted) Graph
+- **Description**: Iterates over all vertice combinations
+- **Runtime**: $O(n^3)$
+- **Input**: Adjacency Matrice 
+- **Output**: 2D Array with shortest distance from vertice $i$ to $j$
+- **Code**:
+```cpp
+// Initialisierung: mat [i][j] = Laenge / infty
+for (k = 0; k < n; k++) {
+    for (i = 0; i < n; i++) {
+        for (j = 0; j < n; j++) {
+            if (mat[i][k] + mat[k][j] < mat[i][j]) {
+                mat[i][j] = mat[i][k] + mat[k][j];
+            }
+        }
+    }
+}
+// Ergebnis: mat [i][j] = Distanz von i nach j .
+```
 
 ## Strings
 
