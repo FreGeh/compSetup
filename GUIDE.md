@@ -159,7 +159,7 @@ for(int64_t i = 1; i <= n; ++i)
 - **Space**: $O(n+m)$
 - **Count Neighbours**: $O(|\text{neighbours}|)$
 - **Test Edge**: $O(|\text{neighbours}|)$
-- **Implementation**: ``vector<vector<int>> &adjlist``
+- **Implementation**: ``vector<vector<int>> adjlist``, for *weighted* ``vector<vector<pair<int,ll>>> adj``
 
 #### Edge List
 - **Description**: List of all Edges displayed as a pair of the connected vertices
@@ -261,6 +261,65 @@ for (k = 0; k < n; k++) {
     }
 }
 // Ergebnis: mat [i][j] = Distanz von i nach j .
+```
+
+## Dijkstra
+- **Purpose**: Compute shortest paths from a single source to every other vertex in a non-negatively weighted graph
+- **Description**: Use a min-heap to repeatedly extract the closest vertex and relax its outgoing edges until all shortest distances from the source are determined.
+- **Runtime**: $O(m \log n)$
+- **Input**: Adjacency List ``, Starting Vertice $s$
+- **Output**: Vector with shortest distance from $s$ to every vertex $v$ `vector<ll> dist(n)`, optionally also `vector<int> prev(n)` for the reconstructed path
+- **Code**:
+```pseudo
+function Dijkstra(graph, source):
+    # Initialization
+    for each vertex v in graph:
+        dist[v] ← ∞
+        prev[v] ← UNDEFINED
+    dist[source] ← 0
+
+    # Min-heap of (distance, vertex)
+    Q ← empty priority queue
+    Q.insert((0, source))
+
+    # Main loop
+    while Q is not empty:
+        (d, u) ← Q.extract_min()
+        if d > dist[u]:
+            continue       # stale entry
+
+        for each edge (u → v) with weight w in graph.adj[u]:
+            alt ← dist[u] + w
+            if alt < dist[v]:
+                dist[v] ← alt
+                prev[v] ← u
+                Q.insert((alt, v))
+
+    return dist, prev
+```
+
+When you have many queries on the same graph, pay the $O(n \cdot m \cdot log(n))$ “up‐front” cost:
+
+```pseudo
+function BuildLookupTable(graph):
+    n ← graph.number_of_vertices
+    create matrix dist[n][n], fill all with ∞
+
+    for s in 0 … n−1:
+        dist[s][s] ← 0
+        (d_s, _) ← Dijkstra(graph, s)
+        for v in 0 … n−1:
+            dist[s][v] ← d_s[v]
+
+    return dist
+```
+Then each query for distance from $a$ to $b$ is just:
+```pseudo
+ans ← dist[a][b]
+if ans == ∞:
+    print "not reachable"
+else:
+    print ans
 ```
 
 ## Strings
