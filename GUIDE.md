@@ -27,12 +27,17 @@ for $n$ numbers:
 ```cpp
 int n;
 cin >> n;
-vector<int> N(n);
-for (int &x : N) {
+vector<int> A(n);
+for (int &x : A) {
     cin >> x;
 }
 ```
-
+or better
+```cpp
+int n; cin >> n;
+vector<int> A(n);
+for (int &x : A) cin >> x;
+```
 ## Data Types
 
 # Strategies
