@@ -345,59 +345,52 @@ for (k = 0; k < n; k++) {
 - **Purpose**: Compute shortest paths from a single source to every other vertex in a non-negatively weighted graph
 - **Description**: Use a min-heap to repeatedly extract the closest vertex and relax its outgoing edges until all shortest distances from the source are determined.
 - **Runtime**: $O(m \log n)$
-- **Input**: Adjacency List ``, Starting Vertice $s$
+- **Input**: Adjacency List `vector<vector<pair<int,int>>> adj`, Starting Vertice $s$
 - **Output**: Vector with shortest distance from $s$ to every vertex $v$ `vector<ll> dist(n)`, optionally also `vector<int> prev(n)` for the reconstructed path
 - **Code**:
-```pseudo
-function Dijkstra(graph, source):
-    # Initialization
-    for each vertex v in graph:
-        dist[v] ← ∞
-        prev[v] ← UNDEFINED
-    dist[source] ← 0
+```cpp
+vector<ll> dijkstra(const vector<vector<pair<int,int>>>& adj, int s,
+                    vector<int>* parent = nullptr)
+{
+    int n = adj.size();
+    vector<ll> dist(n, INF);
+    if (parent) parent->assign(n, -1);
 
-    # Min-heap of (distance, vertex)
-    Q ← empty priority queue
-    Q.insert((0, source))
+    using State = pair<ll,int>;                 // {distance, vertex}
+    priority_queue<State, vector<State>, greater<State>> pq;
 
-    # Main loop
-    while Q is not empty:
-        (d, u) ← Q.extract_min()
-        if d > dist[u]:
-            continue       # stale entry
+    dist[s] = 0;
+    pq.emplace(0, s);
 
-        for each edge (u → v) with weight w in graph.adj[u]:
-            alt ← dist[u] + w
-            if alt < dist[v]:
-                dist[v] ← alt
-                prev[v] ← u
-                Q.insert((alt, v))
+    while (!pq.empty()) {
+        auto [d, u] = pq.top(); pq.pop();
+        if (d != dist[u]) continue;             // stale entry
 
-    return dist, prev
+        for (auto [v, w] : adj[u]) {
+            ll alt = d + w;
+            if (alt < dist[v]) {
+                dist[v] = alt;
+                if (parent) (*parent)[v] = u;
+                pq.emplace(alt, v);
+            }
+        }
+    }
+    return dist;                                // O(m log n)
+}
 ```
-
 When you have many queries on the same graph, pay the $O(n \cdot m \cdot log(n))$ “up‐front” cost:
+```cpp
+vector<vector<ll>> buildAllPairs(const vector<vector<pair<int,int>>>& adj)
+{
+    int n = adj.size();
+    vector<vector<ll>> D(n, vector<ll>(n, INF));
 
-```pseudo
-function BuildLookupTable(graph):
-    n ← graph.number_of_vertices
-    create matrix dist[n][n], fill all with ∞
-
-    for s in 0 … n−1:
-        dist[s][s] ← 0
-        (d_s, _) ← Dijkstra(graph, s)
-        for v in 0 … n−1:
-            dist[s][v] ← d_s[v]
-
-    return dist
-```
-Then each query for distance from $a$ to $b$ is just:
-```pseudo
-ans ← dist[a][b]
-if ans == ∞:
-    print "not reachable"
-else:
-    print ans
+    for (int s = 0; s < n; ++s) {
+        D[s][s] = 0;
+        D[s] = dijkstra(adj, s);          // reuse routine above
+    }
+    return D;                             // O(n·m·log n)
+}
 ```
 
 ## Strings
