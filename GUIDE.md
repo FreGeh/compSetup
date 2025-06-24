@@ -1,27 +1,39 @@
 # Practical
-## Reading Input
-- `cin >>` reads whole string till space
-- `cin.get(c)` reads `char c`, also spaces and `\n`
-- `vector<char> S(tmp.begin(), tmp.end())` seperates string into char vector
 
-# Workflow
+## Workflow
 1. `g++ -std=c++20 -O2 -Wall program.cpp -o program`
-2. `./program < input.txt`
+2. `./program < input.txt` 
+
+## Fast I/O template
+
+```cpp
+ios::sync_with_stdio(false);
+cin.tie(nullptr);
+```
+
+## Constraints
+| Typical technique                               | Time complexity                       | Safe max $n$ (≈ 2 s in C++) |
+| ----------------------------------------------- | ------------------------------------- | --------------------------- |
+| Linear scan, two-pointer, cumulative sums       | $\mathcal O(n)$                       | $\sim 10^{8}$               |
+| Sorting (merge sort, quicksort, heapsort)       | $\mathcal O(n \log n)$                | $\sim 10^{6}$               |
+| Counting / radix sort (fixed word size)         | $\mathcal O(n)$                       | $\sim 10^{7}$               |
+| BFS / DFS on graph $(n+m)$                      | $\mathcal O(n+m)$                     | $n,m \le 2\cdot 10^{5}$   |
+| Dijkstra / Prim (binary heap)                   | $\mathcal O(m \log n)$                | $n,m \le 2\cdot 10^{5}$   |
+| Segment tree / Fenwick tree (updates + queries) | $\mathcal O\!\bigl((n+q)\log n\bigr)$ | $n,q \le 2\cdot 10^{5}$   |
+| Mo’s algorithm, block decomposition             | $\mathcal O(n\sqrt n)$                | $\sim 10^{5}$               |
+| DP on pairs, prefix tables, double loop         | $\mathcal O(n^{2})$                   | $\sim 10^{4}$               |
+| Floyd–Warshall, cubic DP, matrix multiplication | $\mathcal O(n^{3})$                   | $\sim 500$                  |
+| Bitmask DP / enumerate all subsets              | $\mathcal O(n\,2^{n})$                | $n \le 22$                  |
+| Backtracking all permutations                   | $\mathcal O(n!)$                      | $n \le 11$                  |
+
 
 # Basics C++
 
-## Output
-- `(boolFunction() ? "true" : "false")` to automatically output a string depending on the bool value
-
-## Math Tricks
-- Round Up in fractions, use `a+b-1/b` instead of `a/b`.
-
-## STDL Tricks
-- To Check if Vector `S` is Palindrome: `equal(S.begin(), S.begin() + S.size() / 2, S.rbegin());`
-
-## Input/Output
-`cin >>` reads whole string till space
-`cin.get(c)` reads `char c`, also spaces
+## Input
+- `cin >>` reads whole string till space
+- `cin.get(c)` reads `char c`, also spaces and `\n`
+- `getline(cin, s)` reads whole line as `string s`
+- `vector<char> S(tmp.begin(), tmp.end())` seperates string into char vector
 
 for $n$ numbers:
 ```cpp
@@ -32,13 +44,54 @@ for (int &x : A) {
     cin >> x;
 }
 ```
-or better
+
+## Output
+- `cout <<` standard
+- `(bool ? "true" : "false")` to output a value depending on the bool value
+
+## Math Tricks
+- Round Up in fractions, use `a+b-1/b` instead of `a/b`.
+
+## STL Tricks
 ```cpp
-int n; cin >> n;
-vector<int> A(n);
-for (int &x : A) cin >> x;
+iota(v.begin(), v.end(), 0);          // 0,1,2,...
+accumulate(v.begin(), v.end(), 0LL); // sum
+sort(v.begin(), v.end(), greater<>()); // descending
+equal(v.begin(), v.begin()+n/2, v.rbegin()); // palindrome
 ```
+
+
 ## Data Types
+| Type                 | Size / Range                                                 | Notable properties                                  |
+| -------------------- | ------------------------------------------------------------ | --------------------------------------------------- |
+| `int`                | $4\text{ B},\;[-2^{31},\,2^{31}\!-\!1]$                      | fastest arithmetic, default loop index              |
+| `long long`          | $8\text{ B},\;\approx[-9{\times}10^{18},\,9{\times}10^{18}]$ | 64-bit signed, safe for most sums/products          |
+| `unsigned int`       | $4\text{ B},\;[0,\,2^{32}\!-\!1]$                            | wrap-around mod $2^{32}$; bit masks                 |
+| `unsigned long long` | $8\text{ B},\;[0,\,2^{64}\!-\!1]$                            | 64-bit unsigned, modular hashes                     |
+| `double`             | $8\text{ B},\;\sim15$ decimal digits                         | hardware FPU; geometry, probabilistic DP            |
+| `long double` (GCC)  | $16\text{ B},\;\sim18$ digits                                | extra precision for numeric analysis                |
+| `char`               | $1\text{ B},\;[0,255]$                                       | tiny integer; ASCII grids, bit tricks               |
+| `bool`               | $1\text{ B}$ (bit-packed in `vector<bool>`)                  | logical flags, visited arrays                       |
+| `size_t`             | $8\text{ B},\;[0,\,2^{64}\!-\!1]$                            | unsigned type returned by `sizeof`, container sizes |
+
+## Data Structures
+| Container / Helper                        | Key operations                                 | Typical contest use                                  |
+| ----------------------------------------- | ---------------------------------------------- | ---------------------------------------------------- |
+| `vector<T>`                               | `push_back`, index $\mathcal O(1)$ (amortised) | dynamic arrays, graphs, DP tables                    |
+| `array<T,N>`                              | fixed size, index $\mathcal O(1)$              | small static DP or geometry structs                  |
+| `deque<T>`                                | `push_front/back` $\mathcal O(1)$              | sliding-window min/max, 0-1 BFS                      |
+| `stack<T>`                                | LIFO `push/pop` $\mathcal O(1)$                | DFS, parentheses checker                             |
+| `queue<T>`                                | FIFO `push/pop` $\mathcal O(1)$                | standard BFS                                         |
+| `priority_queue<T>`                       | `push/pop` $\mathcal O(\log n)$                | Dijkstra, K-largest elements                         |
+| `set<T>` / `map<K,V>`                     | insert, erase, find $\mathcal O(\log n)$       | sweep-line, order statistics, coordinate compression |
+| `unordered_set<T>` / `unordered_map<K,V>` | avg. insert/find $\mathcal O(1)$               | frequency counts, fast lookup (watch hacks)          |
+| `bitset<N>`                               | bit ops in $\mathcal O(N/64)$                  | subset DP up to $10^{4}$ bits                        |
+| `string`                                  | contiguous bytes; length $\mathcal O(1)$       | token parsing, hashing                               |
+| `pair<A,B>` / `tuple<…>`                  | lexicographic compare, `tie`                   | edges, multi-value returns                           |
+| `segment tree` (`vector`)                 | update/query $\mathcal O(\log n)$              | range sums, max, lazy propagation                    |
+| `Fenwick tree` (`vector`)                 | prefix sum/update $\mathcal O(\log n)$         | inversion count, 1-D BIT                             |
+| `priority_queue<pair<ll,int>>`            | —                                              | Dijkstra with distances                              |
+
 
 # Strategies
 ## Brute Force
@@ -52,21 +105,12 @@ Local optimal decisions need to be globally optimal, since it doesn't take back 
 - incorrect for many types of problems
 
 ## Divide & Conquer
-- **BinarySearch**: Search for biggest element in sorted list. Split up search space each round.
-```pseudo
-function binarySearch(A, target)
-    low  ← 0
-    high ← length(A) − 1
-    while low ≤ high do
-        mid ← low + (high − low) / 2      // avoids overflow
-        if A[mid] = target then
-            return mid                     // found
-        else if A[mid] < target then
-            low ← mid + 1                  // search right half
-        else
-            high ← mid − 1                 // search left half
-    return −1                              // not found
-```
+* **Idea:** break problem into $k$ sub-instances, solve recursively, merge.
+* **Classic uses:**
+
+  * Merge sort, quicksort
+  * Closest pair of points $O(n\log n)$
+  * “Divide & Conquer DP” / “CDQ” optimisation $O(n\log n)$
 
 ## Backtracking
 1. **Filter**: Generate all possible candidates (raw recursion - validation at end)
@@ -78,6 +122,9 @@ function binarySearch(A, target)
 - Solution $x$ works => bigger $>x$ will too
 
 *(the reverse is also possible)*
+
+Implement **predicate** `can(x)`; binary-search smallest/largest `x` for quick checks.
+
 ## Dynamic Programming
 1. Segment hard problem into easier problems 
 2. Solve each problem independently
@@ -126,9 +173,14 @@ Sub-Solution:
 - $F_{i,j}$ is max value of first $i$ objects with $j$ capacity
 - We are looking for $F_{n,C}$
 - Define **Base Cases**: $\forall j: F_{0,j}=0$ and $\forall i: F_{i,0}=0$
-- Define **Recurrence**: For $i,j \geq 1$ is $F_{i,j}=$
-    - $F_{i-1,j}$ if object $i$ doensn't get added
-    - $F_{i-1,j-w_i+v_i}$ if object $i$ gets added
+- Define **Recurrence**: For $i,j \geq 1$ is 
+$$
+F_{i,j} =
+\begin{cases}
+F_{i-1,j} & w_i > j\\[4pt]
+\max\bigl(F_{i-1,j},\; F_{i-1,\,j-w_i}+v_i\bigr) & \text{else}
+\end{cases}
+$$
 
 
 ```cpp
@@ -149,6 +201,27 @@ for(int64_t i = 1; i <= n; ++i)
 # Important Algorithms
 
 ## Sort & Search
+### BinarySearch
+Search for biggest element in sorted list. Split up search space each round.
+```pseudo
+function binarySearch(A, target)
+    low  ← 0
+    high ← |A| − 1
+    while low ≤ high do
+        mid ← low + (high − low) / 2      // overflow-safe
+        if A[mid] == target then return mid
+        if A[mid]  < target then low  ← mid + 1   // go right
+        else                   high ← mid − 1    // go left
+    return −1                                   // not in A
+```
+In C++ there are:
+| Function                          | Meaning                                                    | Typical use                                  |
+| --------------------------------- | ---------------------------------------------------------- | -------------------------------------------- |
+| `binary_search(first, last, val)` | Returns **`true`** iff `val` exists in `[first, last)`.    | Quick membership test.                       |
+| `lower_bound(first, last, val)`   | Iterator to **first element `≥ val`** (or `last` if none). | Insert position that keeps the range sorted. |
+| `upper_bound(first, last, val)`   | Iterator to **first element `> val`** (strictly greater).  | Right end of the run of equal keys.          |
+| `equal_range(first, last, val)`   | Returns `{lower_bound, upper_bound}`.                      | Span of all elements equal to `val`.         |
+
 
 ## Graphs
 ### Data Structures
@@ -268,7 +341,7 @@ for (k = 0; k < n; k++) {
 // Ergebnis: mat [i][j] = Distanz von i nach j .
 ```
 
-## Dijkstra
+### Dijkstra
 - **Purpose**: Compute shortest paths from a single source to every other vertex in a non-negatively weighted graph
 - **Description**: Use a min-heap to repeatedly extract the closest vertex and relax its outgoing edges until all shortest distances from the source are determined.
 - **Runtime**: $O(m \log n)$
@@ -328,21 +401,21 @@ else:
 ```
 
 ## Strings
+| Technique        | Solves                                                                    | Core idea                                                                                                                                          | Time                        |
+| ---------------- | --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------- |
+| **KMP**          | Find a single pattern `P` (`m`) inside text `T` (`n`)                             | Build `pi[]` (longest proper border of each prefix). While scanning `T`, on mismatch jump to `pi[k-1]` instead of restarting. Implement with `vector<int> pi(m);`. | `O(n + m)`                  |
+| **Z-algorithm**  | Get, for every position, the longest prefix starting there (runs, pattern search) | Maintain current match box `[l,r]` equal to the prefix; extend each new index using that box. One forward pass filling `vector<int> z(n);`.                        | `O(n)`                      |
+| **Rolling hash** | Constant-time substring compare, sliding window, duplicate detection              | Store prefix hashes `H[i]` and powers `pow[i]`; hash of `[l,r]` is `H[r+1] − H[l]·pow[len]` mod `M`. Use two moduli to dodge collisions.                           | Build `O(n)`, query `O(1)`  |
+| **Aho–Corasick** | Locate **many** patterns (total length `L`) in a single text (`n`)                | Insert patterns into a trie; BFS builds failure links (KMP on the trie). One linear scan over text follows `fail`/`next` edges and reports matches.                | Build `O(L)`, search `O(n)` |
+
 
 ## Geometry
+```cpp
+struct P{ long long x,y; };
+long long cross(P a,P b,P c){
+    return (b.x-a.x)*(c.y-a.y) - (b.y-a.y)*(c.x-a.x);
+}
+```
 
-# Data Structures
-
-# Math
-## Tricks
-To round up in fractions, use `a+b-1/b` instead of `a/b`.
-
-# Complexity
-## Output
-- `(boolFunction() ? "true" : "false")` to automatically output a string depending on the bool value
-
-## Math Tricks
-- Round Up in fractions, use `a+b-1/b` instead of `a/b`.
-
-## STDL Tricks
-- To Check if Vector `S` is Palindrome: `equal(S.begin(), S.begin() + S.size() / 2, S.rbegin());`
+* `cross>0` left turn, `<0` right turn, `=0` collinear.
+* Distance squared `dsq = (dx*dx + dy*dy)` avoids `sqrt`.
