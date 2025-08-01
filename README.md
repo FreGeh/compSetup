@@ -1,4 +1,4 @@
-*See [Getting Started](https://github.com/FreGeh/cpSetup/blob/master/GUIDE.md) to setup your environment and do your first steps in the competitive programming world*
+*See [Getting Started](https://github.com/FreGeh/cpSetup/blob/master/SETUP.md) to setup your environment and do your first steps in the competitive programming world*
 # Table of Contents
 
 - [Practical Efficiency](#practical)
@@ -409,12 +409,6 @@ for(int64_t i = 1; i <= n; ++i)
 ## Longest Subsequence
 
 # Strings
-| Technique | Solves | Core idea | Time |
-|-----------|--------|-----------|------|
-| **KMP** | Find a single pattern `P` (`m`) inside text `T` (`n`) | Build `pi[]` (longest proper border of each prefix). While scanning `T`, on mismatch jump to `pi[k-1]` instead of restarting. Implement with `vector<int> pi(m);`. | `O(n + m)` |
-| **Z-algorithm** | Get, for every position, the longest prefix starting there (runs, pattern search) | Maintain current match box `[l,r]` equal to the prefix; extend each new index using that box. One forward pass filling `vector<int> z(n);`. | `O(n)` |
-| **Rolling hash** | Constant-time substring compare, sliding window, duplicate detection | Store prefix hashes `H[i]` and powers `pow[i]`; hash of `[l,r]` is `H[r+1] − H[l]·pow[len]` mod `M`. Use two moduli to dodge collisions. | Build `O(n)`, query `O(1)` |
-| **Aho–Corasick** | Locate **many** patterns (total length `L`) in a single text (`n`) | Insert patterns into a trie; BFS builds failure links (KMP on the trie). One linear scan over text follows `fail`/`next` edges and reports matches. | Build `O(L)`, search `O(n)` |
 
 # Geometry
 ```cpp
