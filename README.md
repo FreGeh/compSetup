@@ -1,163 +1,429 @@
-# Introduction
-
-Welcome to the **Competitive Programming Setup Guide**, utilizing a **proven** and **efficient setup** for long-term success!
-Whether you're aiming to excel in **contests** like **ICPC** or enhance your coding abilities for **technical interviews**, this guide gets you started quickly and effectively.
-
-By **following** this **guide**, you'll:
-- Set up a **contest-like** development environment.
-- Master a **pro-like** yet **simple setup** for coding challenges.
-- Learn how to **solve problems** on platforms like **Codeforces** from start to finish.
-
+*See [Getting Started](https://github.com/FreGeh/cpSetup/blob/master/GUIDE.md) to setup your environment and do your first steps in the competitive programming world*
 # Table of Contents
-- [Environment Setup](#environment-setup)
-  - [WSL Setup (Windows Users)](#wsl-setup-windows-users)
-  - [Ubuntu Setup (Everyone)](#ubuntu-setup-everyone)
-- [Solve a Problem on Codeforces](#solve-a-problem-on-codeforces)
-- [Commandline Usage](#commandline-usage)
-- [Explanations](#explanations)
-- [Where to Go Next](#where-to-go-next)
-- [Contribute](#contribute)
 
-# Guide
-[Here](./GUIDE.md) I write down everything I learn on competitive programming in C++
-# Environment Setup
+- [Practical Efficiency](#practical)
+- [C++ Basics](#c-basic-overview)
+- [Datastructures](#datastructures)
+- [Algorithm Design](#algorithm-design)
+- [Sort & Search](#sort--search)
+- [Range Queries](#range-queries)
+- [Dynamic Programming](#dynamic-programming-1)
+  - [Knapsack](#knapsack)
+  - [Longest Subsequence](#longest-subsequence)
+- [Graphs](#graphs)
+  - [Data Structures](#data-structures-1)
+  - [BFS](#bfs)
+  - [DFS](#dfs)
+  - [Floyd-Warshall](#floyd-warshall)
+  - [Dijkstra](#dijkstra)
+- [Trees](#strings)
+- [Strings](#strings)
+- [Geometry](#geometry)
+- [Mathematics](#mathematics)
 
-## WSL Setup (Windows Users)
-This is for **Windows** Users; **Linux users can skip this**.
+# Practical
 
-Since platforms like **Codeforces** and local contests like ICPC run on **Linux-based OS**, we use **WSL** with **Ubuntu** to match that **official environment** (https://docs.icpc.global/worldfinals-programming-environment/). It's simpler than using Windows tools and doesn't affect speed.
+## Workflow
+1. `g++ -std=c++20 -O2 -Wall program.cpp -o program`
+2. `./program < input.txt`
 
-1. Right-click the **Start Menu** -> PowerShell/Terminal (**Admin**).
-2. Type `wsl --install`.
-3. **Restart** your PC.
-4. **Launch Ubuntu** from the Start Menu and set up your user.
-
-### Optional: Rename WSL Instance
-<details>
-<summary>Click to expand</summary>
-
-If you already have WSL installed or plan to have multiple instances, organizing them helps.
-
-1. **Open** a new PowerShell/Terminal (Admin).
-2. Install an **additional instance**: `wsl --install -d Ubuntu-24.04`.
-3. Create a **folder** for new WSL instances: `mkdir C:\WSL`.
-4. **Export** the instance: `wsl --export Ubuntu-24.04 C:\WSL\UbuntuBackup.tar`.
-5. **Unregister** the instance: `wsl --unregister Ubuntu-24.04`.
-6. **Register** the instance with a custom name: `wsl --import CompetitiveProgramming C:\WSL\CompetitiveProgramming C:\WSL\UbuntuBackup.tar`.
-7. Open Terminal and **select** your **new Ubuntu instance** `CompetitiveProgramming` from the `+` dropdown.
-</details>
-
-
-## Ubuntu Setup (Everyone)
-1. **Update** everything: `sudo apt update && sudo apt upgrade -y`.
-2. Install **development tools**: `sudo apt install -y build-essential git`.
-3. Install your preferred **IDE** or **text editor** (e.g., install **Visual Studio Code** on **Windows**: https://code.visualstudio.com/download, and add the **extensions** `WSL` and `C/C++`).
-4. **Clone** this **GitHub repo**: `git clone https://github.com/FreGeh/competitiveProgrammingSetup.git CompetitiveProgramming`.
-5. Navigate to the new folder: `cd CompetitiveProgramming/`.
-6. Open the folder or `program.cpp` in your IDE/text editor (**VSCode**: `code .`).
-
-# Solve a Problem on Codeforces
-
-## 1. Choose a Problem
-1. Visit **Codeforces** (https://codeforces.com/) and log in or sign up.
-2. For starter problems, go to `Problemsets` and sort by the number of people who have solved them. For example, **Medium Number** (https://codeforces.com/problemset/problem/1760/A).
-
-## 2. Solve the Problem
-1. **Read** the problem description carefully.
-2. **Paste** the **example input** into `input.txt` and the example output into `output.txt`.
-3. **Think of a solution** and write it in the `void solve()` function.
-
-## 3. Compile and Test Locally
-1. **Open** your **Ubuntu Terminal** `cd ~/CompetitiveProgramming` and compile your code: `g++ -std=c++20 -O2 -Wall program.cpp -o program`.
-2. **Test** with example input: `./program < input.txt`.
-3. **Compare** output:
-   - If **correct**, submit.
-   - If **incorrect**, debug with the `debug()` function, place it anywhere you want to analyze the variable behaviour.
-
-## 4. Submit Your Solution
-1. Scroll down and select `GNU G++20` under `Submit?`. **Upload your c++ code**, then click `Submit`.
-2. Check your **submissions page** for the verdict. If a test fails, copy the test case to debug locally further.
-
-
-# Commandline Usage
-
-## Compiling
-```sh
-g++ -std=c++20 -O2 -Wall -DDEBUG program.cpp -o program
+## Must Have Header
+```cpp
+#include "bits/stdc++.h"
+using namespace std;
+#define ll long long
+```
+## Fast I/O template
+Inside main function, always add:
+```cpp
+ios::sync_with_stdio(false);
+cin.tie(nullptr);
 ```
 
-- **`g++`**: GNU Compiler Collection (GCC) **C++ Compiler**.
-- **`-std=c++20`**: Specifies that the **C++20 standard** should be used.
-- **`-O2`**: Enables **level 2 optimizations** during compilation, improving runtime performance.
-- **`-Wall`**: Activates all **basic warning** messages.
-- **`-DDEBUG`**: Includes our **debug utilities** if required.
-- **`-o program`**: Specify the name of the **output file**.
+## Estimate Runtime
+| Typical technique | Time complexity | Safe max |
+|-------------------|----------------|----------|
+| Binary exponentiation, binary search, GCD | $\mathcal O(\log n)$ | $n \le 10^{18}$ |
+| Trial division, sieve of Eratosthenes | $\mathcal O(\sqrt n)$ | $n \le 10^{15}$ |
+| Linear scan, two-pointer, cumulative sums | $\mathcal O(n)$ | $n \le 10^{8}$ |
+| Sorting (merge sort, quicksort, heapsort) | $\mathcal O(n \log n)$ | $n \le 10^{6}$ |
+| BFS / DFS on graph $(n+m)$ | $\mathcal O(n+m)$ | $n,m \le 2\cdot 10^{5}$ |
+| Dijkstra / Prim (binary heap) | $\mathcal O(m \log n)$ | $n,m \le 2\cdot 10^{5}$ |
+| Segment tree / Fenwick tree (updates + queries) | $\mathcal O\!\bigl((n+q)\log n\bigr)$ | $n,q \le 2\cdot 10^{5}$ |
+| Mo’s algorithm, block decomposition | $\mathcal O(n\sqrt n)$ | $n \le 10^{5}$ |
+| DP on pairs, prefix tables, double loop | $\mathcal O(n^{2})$ | $n \le 5000$ |
+| Floyd–Warshall, cubic DP, matrix multiplication | $\mathcal O(n^{3})$ | $n \le 500$ |
+| Bitmask DP / enumerate all subsets | $\mathcal O(2^{n})$ | $n \le 20$ |
+| Backtracking all permutations | $\mathcal O(n!)$ | $n \le 11$ |
 
-## Input and Output
-- **`./program < input.txt`**: Uses `input.txt` as input.
-- **`./program < input.txt > output.txt`**: Saves output to `output.txt`.
+## Contest Learnings
 
-# Explanations
+- Really make sure you **fully read the problem description**, especially to discover properties which **limit possible result cases**
+# C++ Basic Overview
 
-## program.cpp
+## Input
+- `cin >>` reads whole string till space
+- `cin.get(c)` reads `char c`, also spaces and `\n`
+- `getline(cin, s)` reads whole line as `string s`
+- `vector<char> S(tmp.begin(), tmp.end())` seperates string into char vector
 
-### Head
-- **`#include <bits/stdc++.h>`**: Includes all standard library headers in one line. *(Use individual headers to slightly reduce compilation time.)*
-- **`using namespace std;`**: Avoids the repetitive prefix `std::`.
-- **`typedef long long ll;`**: Shortens `long long` to `ll`.
-- **`#ifdef DEBUG`** **Conditional compilation**: If compiled with (**`-DDEBUG`**) includes custom **debug utilities** `#include "debug.h"`. Otherwise `#define debug(...) do { } while(0)` to not interfere if accidentally still used in code.
+for $n$ numbers:
+```cpp
+int n;
+cin >> n;
+vector<int> A(n);
+for (int &x : A) {
+    cin >> x;
+}
+```
 
-### Body
-**`void solve()`** The main logic for each test case goes here. Inputs are read via `cin` and results are output via `cout`. 
+## Output
+- `cout <<` standard
+- `(bool ? "true" : "false")` to output a value depending on the bool value
 
-**`main()`** **Function**: Handles setup and test case execution:
-- Optimizes I/O: `ios::sync_with_stdio(false);` speeds up input/output operations. 
-- Automatic flushing enabled `cin.tie(nullptr);` when not debugging: `#ifndef DEBUG`.
-- Reads the number of test cases `tests` and calls `solve()` for each. *(Tip: If the problem has no test cases, set `int tests = 1` and comment out `cin >> tests;`)*
+## Math Tricks
+- Round Up in fractions, use `a+b-1/b` instead of `a/b`.
 
-## debug.h
-- **`#pragma once`**: Ensures the header file is included **only once** in the program to prevent redefinitions.
-- **`dbg_out()`** (base case): Prints a newline when no arguments are passed, acting as the **termination point** for recursive calls.
-- **`dbg_out(Head, Tail...)`**: A templated function that recursively processes and outputs multiple arguments to `cerr`, separated by spaces.
-- **`#define debug(...)`**: A **macro** that:
-  - Prints debug messages to `cerr` in red (`\033[31m`), including the **file name** (`__FILE__`) and **line number** (`__LINE__`) where the macro is called.
-  - **Formats** the **output** by displaying the variable names (`#__VA_ARGS__`) followed by their values, leveraging the `dbg_out` function.
-  - **Resets text formatting** with `\033[0m`.
+## STL Tricks
+```cpp
+iota(v.begin(), v.end(), 0); // 0,1,2,...
+accumulate(v.begin(), v.end(), 0LL); // sum
+sort(v.begin(), v.end(), greater<>()); // descending
+equal(v.begin(), v.begin()+n/2, v.rbegin()); // palindrome
+```
 
-This setup allows efficient debugging by integrating **variable inspection** directly into your code **without impacting the production build**.
+## Bit Manipulation
+
+## Data Types
+| Type | Size / Range | Notable properties |
+|------|--------------|-------------------|
+| `int` | $4\text{ B},\;[-2^{31},\,2^{31}\!-\!1]$ | fastest arithmetic, default loop index |
+| `long long` | $8\text{ B},\;\approx[-9{\times}10^{18},\,9{\times}10^{18}]$ | 64-bit signed, safe for most sums/products |
+| `unsigned int` | $4\text{ B},\;[0,\,2^{32}\!-\!1]$ | wrap-around mod $2^{32}$; bit masks |
+| `unsigned long long` | $8\text{ B},\;[0,\,2^{64}\!-\!1]$ | 64-bit unsigned, modular hashes |
+| `double` | $8\text{ B},\;\sim15$ decimal digits | hardware FPU; geometry, probabilistic DP |
+| `long double` (GCC) | $16\text{ B},\;\sim18$ digits | extra precision for numeric analysis |
+| `char` | $1\text{ B},\;[0,255]$ | tiny integer; ASCII grids, bit tricks |
+| `bool` | $1\text{ B}$ (bit-packed in `vector<bool>`) | logical flags, visited arrays |
+| `size_t` | $8\text{ B},\;[0,\,2^{64}\!-\!1]$ | unsigned type returned by `sizeof`, container sizes |
+
+# Basic Datastructures
+
+| Container / Helper | Key operations & complexity | Typical contest use |
+|--------------------|----------------------------|--------------------|
+| `vector<T>` | Dynamic array, index/push_back O(1) amortized | Arrays, graphs, DP tables |
+| `deque<T>` | Push/pop front/back O(1) | Sliding window, 0-1 BFS |
+| `list<T>` | Insert/erase O(1) with iterator | Rarely used; custom linked lists |
+| `array<T,N>` | Fixed-size array, index O(1) | Small static arrays, DP, geometry |
+| `stack<T>` | LIFO push/pop/top O(1) | DFS, parentheses checker |
+| `queue<T>` | FIFO push/pop/front O(1) | BFS, task scheduling |
+| `priority_queue<T>` | Push/pop/top O(log n) | Dijkstra, K-largest elements |
+| `set<T>`/`multiset<T>` | Insert/erase/find O(log n) | Ordered sets, coordinate compression |
+| `map<K,V>`/`multimap<K,V>` | Insert/erase/find O(log n) | Ordered maps, frequency counts |
+| `unordered_set<T>`/`unordered_multiset<T>` | Insert/erase/find O(1) avg | Fast lookup, frequency counts |
+| `unordered_map<K,V>`/`unordered_multimap<K,V>` | Insert/erase/find O(1) avg | Fast maps, hash tables |
+| `bitset<N>` | Bitwise ops O(1), access O(1) | Bitmask DP, subset problems |
+| `string` | Access O(1), concat O(n) | Token parsing, hashing, string algorithms |
+| `pair<A,B>`/`tuple<...>` | Structured grouping, lex compare | Edges, multi-value returns |
+
+## Arrays
+- `vector`, `array`, `queue`, `dequeue`, `stack`, `bitset<N>`
+- talking about iterators
+- talking about strings
+
+# Specific Containers
 
 
-# Where to Go Next
+## Heaps
+- `priority_queue`
 
-Competitive Programming is a **transformative journey** that seems way too big and complicated at the beginning, but let's you gradually improve and understand more about many aspects of modern Computer Science. So don't give up easily, but keep going by solving a problem each day :)
+## Trees (Ordered Associative)
+- `set`, `map`
 
-## Online Resources
-- **Codeforces** (Top problem-solving platform): [codeforces.com](https://codeforces.com/)
-- **CP-Algorithms Wiki** (Helpful articles and guides): [cp-algorithms.com](https://cp-algorithms.com/)
-- **GeeksforGeeks CP Handbook** (Step-by-step chapters): [geeksforgeeks.org/competitive-programming-cp-handbook-with-complete-roadmap](https://www.geeksforgeeks.org/competitive-programming-cp-handbook-with-complete-roadmap/)
-- **MIT OpenCourseWare** (Free video lectures and resources): 
-  - Algorithms: [ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/)
-  - Advanced Algorithms: [ocw.mit.edu/courses/6-854j-advanced-algorithms-fall-2008](https://ocw.mit.edu/courses/6-854j-advanced-algorithms-fall-2008/)
-- **Algorithms by Robert Sedgewick and Kevin Wayne** (Highly-rated online book): [algs4.cs.princeton.edu/home](https://algs4.cs.princeton.edu/home/)
-- **CP Ressources Wiki**: [github.com/lnishan/awesome-competitive-programming](https://github.com/lnishan/awesome-competitive-programming)
+## Hash Map (Unordered Associative)
+- `unordered_set`, `unordered_map`
 
-## Tools
-- **Tampermonkey Script** (Highlights relevant math variables/notations so you can read problems easier): [greasyfork.org](https://greasyfork.org/en/scripts/521888-math-variables-and-notations-highlighter)(*made by me*)
+## Utilities
+- `pair`, `tuple`, `optional`, `variant`
 
-# Contribute
 
-Thank you for the interest in this page :)
-I would appreciate any help to keep it up to date and fix any errors and add improvements if needed.
+# Algorithm Design
+## Problem Categories
+* **Decision**: (True/False)
+* **Search / Construct** (Valid Solution / Structure)
+* **Counting** (Number of Solutions)
+* **Enumeration** (All Solutions)
+* **Optimization** (Best Value)
+* **Approximation** (Near Optimal)
+* **Interactive** (Answering Queries)
 
-## How
-1. For new additions or specific modifications create [Pull Requests](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request)
-2. For general suggestions create an [Issue](https://github.com/FreGeh/competitiveProgrammingSetup/issues/new/choose)
-3. Or just message me directly per E-Mail (fregeh7@gmail.com)  
+## Core Paradigms
 
-## ToDos
-- add more ressources, but keep it short
-- better explanations that are precise and understandable even for beginners
-- add screenshots/gifs where needed
-- improve visual appeal
-- youtube video going through everything
-    - showing how to solve any problem with it
+### 1. Brute Force
+Try **all possibilities** directly.
+- Guaranteed correct if implemented correctly
+- Almost always too slow in runtime
+
+### 2. Greedy
+Make **locally optimal** decisions, which *(hopefully)* also lead to **global optimum**.
+- Fast and simple when valid
+- Incorrect for many types of problems
+- Requires justification through invariant or exchange argument
+
+### 3. Divide & Conquer
+Split problem into **disjoint** subproblems, solve each recursively, then merge results.
+- Reduces complexity by splitting up search space
+
+### 4. Dynamic Programming
+Break a problem into **overlapping** subproblems, cache results and then reuse them.
+- **Top-down**: recursion + memoization.  
+- **Bottom-up**: iterative filling of a table
+- Requires state definition and transitions.
+
+### 5. Modeling & Structure
+Rephrase the problem so known structures apply.
+- Take datastructure and construct it in a fitting way
+- Reduce problem to easier known problem
+- Examples: Graphs, Union-Find, Fenwick, Compression
+
+
+# Sorting & Searching
+## BinarySearch
+Search for biggest element in sorted list. Split up search space each round.
+```cpp
+int binary_search_idx(vector<int>& A, int target) {
+    int low = 0;
+    int high = A.size() - 1;
+    while (low <= high) {
+        int mid = low + (high - low) / 2; // overflow safe
+        if (A[mid] == target) return mid; // succesfuly found target
+        if (A[mid] < target) low = mid + 1; // go right
+        else high = mid - 1; // go left
+    }
+    return -1; // not in A
+}
+```
+In C++ there are:
+| Function | Returns | Meaning |
+|----------|---------|-------------|
+| `binary_search(first, last, val)` | **`true`** $\iff$ `val` exists in `[first, last)`. | 	Existence test in sorted range |
+| `lower_bound(first, last, val)` | Iterator to **first element `≥ val`** (or `last` if none). | First occurrence |
+| `upper_bound(first, last, val)` | Iterator to **first element `> val`** (strictly greater). | End of equal range |
+| `equal_range(first, last, val)` | **Pair of iterators** `[lower_bound, upper_bound)`. | Range of elements equal to `val` |
+
+# Range Queries
+
+
+# Graphs
+## Data Structures
+### Adjacency Matrice
+- **Description**: $n \times n$ Matrice. $A_{i,j}=1$ means there is an edge from vertice $i$ to $j$
+- **Space**: $O(n^2)$
+- **Count Neighbours**: $O(n)$
+- **Test Edge**: $O(1)$
+- **Implementation**: ``vector<vector<bool>> A(n, vector<bool>(n, false))``
+
+### Adjacency List
+- **Description**: List with $n$ Entries, each having an array containing all vertices it's connected to.
+- **Space**: $O(n+m)$
+- **Count Neighbours**: $O(|\text{neighbours}|)$
+- **Test Edge**: $O(|\text{neighbours}|)$
+- **Implementation**: ``vector<vector<int>> adjlist``, for *weighted* ``vector<vector<pair<int,ll>>> adj``
+
+### Edge List
+- **Description**: List of all Edges displayed as a pair of the connected vertices
+- **Space**: $O(m)$
+- **Count Neighbours**: $O(m)$
+- **Test Edge**: $O(m)$
+- **Implementation**: ``vector<pair<int,int>> edges``
+
+## BFS
+- **Purpose**: Find shortest paths in unweighted Graph (and discover connectivity by layers)
+- **Description**: Level‐by‐level (breadth‐first) exploration from the start vertex $s$
+- **Runtime**: $O(n+m)$
+- **Input**: Adjacency List, Starting Vertice $s$
+- **Output**:
+- **Code**:
+```cpp
+int s = 42; // Startknoten
+vector<vector<int>> &adjlist;
+int n = adjlist.size();
+queue<int> q;
+q.push(s);
+vector<int> dist(n, INF), parent(n, -1);
+dist[s] = 0;
+parent[s] = -1;
+while (!q.empty()) {
+    int v = q.front();
+    q.pop();
+    for (int w : adjlist[v]) {
+        if (dist[w] == INF) {
+            dist[w] = dist[v] + 1;
+            parent[w] = v;
+            q.push(w);
+        }
+    }
+}
+```
+and for the output:
+```cpp
+for (int w = 0; w < n; ++w) {
+    if (parent[w] != -1)
+        cout << parent[w] << " --> " << w << "  (dist=" << dist[w] << ")\n";
+}
+```
+
+## DFS
+- **Purpose**: Detect connectivity, reachability, cycles. Construct Paths. Perform topological sorting. Solve *backtracking* problems.
+- **Description**: Explores Graph greedy from starting vertice $s$
+- **Runtime**: $O(n+m)$
+- **Input**: Adjacency List, Starting Vertice
+- **Output**: DFS Tree
+- **Code**:
+```cpp
+void visit(int v, vector<bool> &visited, vector<int> &parent) {
+    visited[v] = true;
+    for (int w : adjlist[v]) {
+        if (!visited[w]) {
+            parent[w] = v;
+            visit(w, visited, parent);
+        }
+    }
+}
+```
+to kick of the search and get the output:
+```cpp
+vector<vector<int>> &adjlist;
+vector<bool> visited(n, false);
+vector<int> parent(n, -1);
+visit(s, visited, parent); // s = Startknoten
+for (int w = 0; w < n; ++w) {
+  if (parent[w] != -1)
+    cout << parent[w] << " --> " << w << "\n";
+}
+```
+
+## Floyd-Warshall
+- **Purpose**: Find all shortest Paths in a (weighted) Graph
+- **Description**: Iterates over all vertice combinations
+- **Runtime**: $O(n^3)$
+- **Input**: Adjacency Matrice
+- **Output**: 2D Array with shortest distance from vertice $i$ to $j$
+- **Code**:
+```cpp
+// Initialisierung: mat [i][j] = Laenge / infty
+for (k = 0; k < n; k++) {
+    for (i = 0; i < n; i++) {
+        for (j = 0; j < n; j++) {
+            if (mat[i][k] + mat[k][j] < mat[i][j]) {
+                mat[i][j] = mat[i][k] + mat[k][j];
+            }
+        }
+    }
+}
+// Ergebnis: mat [i][j] = Distanz von i nach j .
+```
+
+## Dijkstra
+- **Purpose**: Compute shortest paths from a single source to every other vertex in a non-negatively weighted graph
+- **Description**: Use a min-heap to repeatedly extract the closest vertex and relax its outgoing edges until all shortest distances from the source are determined.
+- **Runtime**: $O(m \log n)$
+- **Input**: Adjacency List `vector<vector<pair<int,int>>> adj`, Starting Vertice $s$
+- **Output**: Vector with shortest distance from $s$ to every vertex $v$ `vector<ll> dist(n)`, optionally also `vector<int> prev(n)` for the reconstructed path
+- **Code**:
+```cpp
+vector<ll> dijkstra(const vector<vector<pair<int,int>>>& adj, int s,
+                    vector<int>* parent = nullptr)
+{
+    int n = adj.size();
+    vector<ll> dist(n, INF);
+    if (parent) parent->assign(n, -1);
+    using State = pair<ll,int>;
+    priority_queue<State, vector<State>, greater<State>> pq;
+    dist[s] = 0;
+    pq.emplace(0, s);
+    while (!pq.empty()) {
+        auto [d, u] = pq.top(); pq.pop();
+        if (d != dist[u]) continue;
+        for (auto [v, w] : adj[u]) {
+            ll alt = d + w;
+            if (alt < dist[v]) {
+                dist[v] = alt;
+                if (parent) (*parent)[v] = u;
+                pq.emplace(alt, v);
+            }
+        }
+    }
+    return dist;
+}
+```
+When you have many queries on the same graph, pay the $O(n \cdot m \cdot log(n))$ “up‐front” cost:
+```cpp
+vector<vector<ll>> buildAllPairs(const vector<vector<pair<int,int>>>& adj)
+{
+    int n = adj.size();
+    vector<vector<ll>> D(n, vector<ll>(n, INF));
+    for (int s = 0; s < n; ++s) {
+        D[s][s] = 0;
+        D[s] = dijkstra(adj, s);
+    }
+    return D;
+}
+```
+
+# Dynamic Programming
+
+## Knapsack
+**Given**:
+- $G=\{1, \dots, n\}$ **Objects** ($1 \leq |G| \leq 10^3$)
+- $C \in \mathbb{N}$ **Capacity** ($1 \leq C \leq 10^4$)
+- $v: G \to \mathbb{N}$ **Value** ($1 \leq v_i \leq 10^9$)
+- $w: G \to \mathbb{N}$ **Weight** ($1 \leq w_i \leq 10^9$)
+
+**Question**:
+- What is the **max total value of unique objects**, which total weight is smaller than the capacity?
+
+Sub-Solution:
+- $F_{i,j}$ is max value of first $i$ objects with $j$ capacity
+- We are looking for $F_{n,C}$
+- Define **Base Cases**: $\forall j: F_{0,j}=0$ and $\forall i: F_{i,0}=0$
+- Define **Recurrence**: For $i,j \geq 1$ is
+$$
+F_{i,j} =
+\begin{cases}
+F_{i-1,j} & w_i > j\\[4pt]
+\max\bigl(F_{i-1,j},\; F_{i-1,\,j-w_i}+v_i\bigr) & \text{else}
+\end{cases}
+$$
+
+DP Solution:
+```cpp
+for(int64_t i = 1; i <= n; ++i)
+    for(int64_t j = 1; j <= C; ++j) {
+        f[i][j] = f[i-1][j];
+        if (j >= w[i])
+            f[i][j] = max(f[i - 1][j], f[i-1][j-w[i]] + v[i]);
+}
+```
+
+## Longest Subsequence
+
+# Strings
+| Technique | Solves | Core idea | Time |
+|-----------|--------|-----------|------|
+| **KMP** | Find a single pattern `P` (`m`) inside text `T` (`n`) | Build `pi[]` (longest proper border of each prefix). While scanning `T`, on mismatch jump to `pi[k-1]` instead of restarting. Implement with `vector<int> pi(m);`. | `O(n + m)` |
+| **Z-algorithm** | Get, for every position, the longest prefix starting there (runs, pattern search) | Maintain current match box `[l,r]` equal to the prefix; extend each new index using that box. One forward pass filling `vector<int> z(n);`. | `O(n)` |
+| **Rolling hash** | Constant-time substring compare, sliding window, duplicate detection | Store prefix hashes `H[i]` and powers `pow[i]`; hash of `[l,r]` is `H[r+1] − H[l]·pow[len]` mod `M`. Use two moduli to dodge collisions. | Build `O(n)`, query `O(1)` |
+| **Aho–Corasick** | Locate **many** patterns (total length `L`) in a single text (`n`) | Insert patterns into a trie; BFS builds failure links (KMP on the trie). One linear scan over text follows `fail`/`next` edges and reports matches. | Build `O(L)`, search `O(n)` |
+
+# Geometry
+```cpp
+struct P{ long long x,y; };
+long long cross(P a,P b,P c){
+    return (b.x-a.x)*(c.y-a.y) - (b.y-a.y)*(c.x-a.x);
+}
+```
+* `cross>0` left turn, `<0` right turn, `=0` collinear.
+* Distance squared `dsq = (dx*dx + dy*dy)` avoids `sqrt`.
+
+# Mathematics
