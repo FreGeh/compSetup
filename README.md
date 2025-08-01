@@ -1,27 +1,26 @@
-*See [Getting Started](https://github.com/FreGeh/cpSetup/blob/master/SETUP.md) to setup your environment and do your first steps in the competitive programming world*
-# Table of Contents
-
-- [Practical Efficiency](#practical)
+*See [Getting Started](https://github.com/FreGeh/cpSetup/blob/master/SETUP.md) to learn how to setup your environment and walk your first steps in the competitive programming world!*
+# Practical Competitive Programming Handbook
+- [Competition Basics](#competition-basics)
 - [C++ Basics](#c-basic-overview)
-- [Datastructures](#datastructures)
+- [Basic Datastructures](#basic-datastructures)
 - [Algorithm Design](#algorithm-design)
 - [Sort & Search](#sort--search)
-- [Range Queries](#range-queries)
-- [Dynamic Programming](#dynamic-programming-1)
-  - [Knapsack](#knapsack)
-  - [Longest Subsequence](#longest-subsequence)
 - [Graphs](#graphs)
-  - [Data Structures](#data-structures-1)
-  - [BFS](#bfs)
-  - [DFS](#dfs)
+  - [Graph Structures](#structures)
+  - [BFS](#breadth-first-search)
+  - [DFS](#depth-first-search)
   - [Floyd-Warshall](#floyd-warshall)
   - [Dijkstra](#dijkstra)
-- [Trees](#strings)
+- [Dynamic Programming](#dynamic-programming)
+  - [Knapsack](#knapsack)
+  - [Longest Subsequence](#longest-subsequence)
+- [Advanced Datastructures](#advanced-datastructures)
+  - [Trees](#trees)
 - [Strings](#strings)
 - [Geometry](#geometry)
 - [Mathematics](#mathematics)
 
-# Practical
+# Competition Basics
 
 ## Workflow
 1. `g++ -std=c++20 -O2 -Wall program.cpp -o program`
@@ -67,7 +66,7 @@ cin.tie(nullptr);
 - `getline(cin, s)` reads whole line as `string s`
 - `vector<char> S(tmp.begin(), tmp.end())` seperates string into char vector
 
-for $n$ numbers:
+for $n$ numbers (crucial to not forget the `&`):
 ```cpp
 int n;
 cin >> n;
@@ -79,10 +78,11 @@ for (int &x : A) {
 
 ## Output
 - `cout <<` standard
-- `(bool ? "true" : "false")` to output a value depending on the bool value
+- `(statement ? "true" : "false")` to output a value depending on the bool value of the `statement`
 
 ## Math Tricks
 - Round Up in fractions, use `a+b-1/b` instead of `a/b`.
+- Square to avoid `sqrt`
 
 ## STL Tricks
 ```cpp
@@ -111,19 +111,19 @@ equal(v.begin(), v.begin()+n/2, v.rbegin()); // palindrome
 
 | Container / Helper | Key operations & complexity | Typical contest use |
 |--------------------|----------------------------|--------------------|
-| `vector<T>` | Dynamic array, index/push_back O(1) amortized | Arrays, graphs, DP tables |
-| `deque<T>` | Push/pop front/back O(1) | Sliding window, 0-1 BFS |
-| `list<T>` | Insert/erase O(1) with iterator | Rarely used; custom linked lists |
-| `array<T,N>` | Fixed-size array, index O(1) | Small static arrays, DP, geometry |
-| `stack<T>` | LIFO push/pop/top O(1) | DFS, parentheses checker |
-| `queue<T>` | FIFO push/pop/front O(1) | BFS, task scheduling |
-| `priority_queue<T>` | Push/pop/top O(log n) | Dijkstra, K-largest elements |
-| `set<T>`/`multiset<T>` | Insert/erase/find O(log n) | Ordered sets, coordinate compression |
-| `map<K,V>`/`multimap<K,V>` | Insert/erase/find O(log n) | Ordered maps, frequency counts |
-| `unordered_set<T>`/`unordered_multiset<T>` | Insert/erase/find O(1) avg | Fast lookup, frequency counts |
-| `unordered_map<K,V>`/`unordered_multimap<K,V>` | Insert/erase/find O(1) avg | Fast maps, hash tables |
-| `bitset<N>` | Bitwise ops O(1), access O(1) | Bitmask DP, subset problems |
-| `string` | Access O(1), concat O(n) | Token parsing, hashing, string algorithms |
+| `vector<T>` | Dynamic array, index/push_back $O(1)$ amortized | Arrays, graphs, DP tables |
+| `deque<T>` | Push/pop front/back $O(1)$ | Sliding window, 0-1 BFS |
+| `list<T>` | Insert/erase $O(1)$ with iterator | Rarely used; custom linked lists |
+| `array<T,N>` | Fixed-size array, index $O(1)$ | Small static arrays, DP, geometry |
+| `stack<T>` | LIFO push/pop/top $O(1)$ | DFS, parentheses checker |
+| `queue<T>` | FIFO push/pop/front $O(1)$ | BFS, task scheduling |
+| `priority_queue<T>` | Push/pop/top $O(log n)$ | Dijkstra, K-largest elements |
+| `set<T>`/`multiset<T>` | Insert/erase/find $O(log n)$ | Ordered sets, coordinate compression |
+| `map<K,V>`/`multimap<K,V>` | Insert/erase/find $O(log n)$ | Ordered maps, frequency counts |
+| `unordered_set<T>`/`unordered_multiset<T>` | Insert/erase/find $O(1)$ avg | Fast lookup, frequency counts |
+| `unordered_map<K,V>`/`unordered_multimap<K,V>` | Insert/erase/find $O(1)$ avg | Fast maps, hash tables |
+| `bitset<N>` | Bitwise ops $O(1)$, access $O(1)$ | Bitmask DP, subset problems |
+| `string` | Access $O(1)$, concat $O(n)$ | Token parsing, hashing, string algorithms |
 | `pair<A,B>`/`tuple<...>` | Structured grouping, lex compare | Edges, multi-value returns |
 
 ## Arrays
@@ -211,11 +211,9 @@ In C++ there are:
 | `upper_bound(first, last, val)` | Iterator to **first element `> val`** (strictly greater). | End of equal range |
 | `equal_range(first, last, val)` | **Pair of iterators** `[lower_bound, upper_bound)`. | Range of elements equal to `val` |
 
-# Range Queries
-
 
 # Graphs
-## Data Structures
+## Structures
 ### Adjacency Matrice
 - **Description**: $n \times n$ Matrice. $A_{i,j}=1$ means there is an edge from vertice $i$ to $j$
 - **Space**: $O(n^2)$
@@ -237,16 +235,14 @@ In C++ there are:
 - **Test Edge**: $O(m)$
 - **Implementation**: ``vector<pair<int,int>> edges``
 
-## BFS
+## Breadth-First Search
 - **Purpose**: Find shortest paths in unweighted Graph (and discover connectivity by layers)
 - **Description**: Level‐by‐level (breadth‐first) exploration from the start vertex $s$
 - **Runtime**: $O(n+m)$
-- **Input**: Adjacency List, Starting Vertice $s$
+- **Input**: Adjacency List `vector<vector<int>> &adjlist`, Starting Vertice `s`
 - **Output**:
 - **Code**:
 ```cpp
-int s = 42; // Startknoten
-vector<vector<int>> &adjlist;
 int n = adjlist.size();
 queue<int> q;
 q.push(s);
@@ -273,11 +269,11 @@ for (int w = 0; w < n; ++w) {
 }
 ```
 
-## DFS
+## Depth-First Search
 - **Purpose**: Detect connectivity, reachability, cycles. Construct Paths. Perform topological sorting. Solve *backtracking* problems.
 - **Description**: Explores Graph greedy from starting vertice $s$
 - **Runtime**: $O(n+m)$
-- **Input**: Adjacency List, Starting Vertice
+- **Input**: Adjacency List `vector<vector<int>> &adjlist`, Starting Vertice `s`
 - **Output**: DFS Tree
 - **Code**:
 ```cpp
@@ -293,7 +289,6 @@ void visit(int v, vector<bool> &visited, vector<int> &parent) {
 ```
 to kick of the search and get the output:
 ```cpp
-vector<vector<int>> &adjlist;
 vector<bool> visited(n, false);
 vector<int> parent(n, -1);
 visit(s, visited, parent); // s = Startknoten
@@ -308,10 +303,10 @@ for (int w = 0; w < n; ++w) {
 - **Description**: Iterates over all vertice combinations
 - **Runtime**: $O(n^3)$
 - **Input**: Adjacency Matrice
-- **Output**: 2D Array with shortest distance from vertice $i$ to $j$
+- **Output**: 2D Array `mat` where `mat[i][j]`= shortest distance from vertice $i$ to $j$
 - **Code**:
 ```cpp
-// Initialisierung: mat [i][j] = Laenge / infty
+// Initialize: mat [i][j] = infty
 for (k = 0; k < n; k++) {
     for (i = 0; i < n; i++) {
         for (j = 0; j < n; j++) {
@@ -321,20 +316,17 @@ for (k = 0; k < n; k++) {
         }
     }
 }
-// Ergebnis: mat [i][j] = Distanz von i nach j .
 ```
 
 ## Dijkstra
 - **Purpose**: Compute shortest paths from a single source to every other vertex in a non-negatively weighted graph
 - **Description**: Use a min-heap to repeatedly extract the closest vertex and relax its outgoing edges until all shortest distances from the source are determined.
 - **Runtime**: $O(m \log n)$
-- **Input**: Adjacency List `vector<vector<pair<int,int>>> adj`, Starting Vertice $s$
+- **Input**: Adjacency List `vector<vector<pair<int,int>>> &adj`, Starting Vertice `s`
 - **Output**: Vector with shortest distance from $s$ to every vertex $v$ `vector<ll> dist(n)`, optionally also `vector<int> prev(n)` for the reconstructed path
 - **Code**:
 ```cpp
-vector<ll> dijkstra(const vector<vector<pair<int,int>>>& adj, int s,
-                    vector<int>* parent = nullptr)
-{
+vector<ll> dijkstra(const vector<vector<pair<int,int>>>& adj, int s, vector<int>* parent = nullptr) {
     int n = adj.size();
     vector<ll> dist(n, INF);
     if (parent) parent->assign(n, -1);
@@ -359,8 +351,7 @@ vector<ll> dijkstra(const vector<vector<pair<int,int>>>& adj, int s,
 ```
 When you have many queries on the same graph, pay the $O(n \cdot m \cdot log(n))$ “up‐front” cost:
 ```cpp
-vector<vector<ll>> buildAllPairs(const vector<vector<pair<int,int>>>& adj)
-{
+vector<vector<ll>> buildAllPairs(const vector<vector<pair<int,int>>>& adj) {
     int n = adj.size();
     vector<vector<ll>> D(n, vector<ll>(n, INF));
     for (int s = 0; s < n; ++s) {
@@ -408,16 +399,214 @@ for(int64_t i = 1; i <= n; ++i)
 
 ## Longest Subsequence
 
+# Advanced Datastructures
+
+## Trees
+
 # Strings
 
 # Geometry
+## Basics
+- **Never use** `float`
+- Prefer `long long` for exact integer geometry
+- If you *absolutely need* non-integral values, use `long double`
+
+
+
+Treat any $|x|<EPS$ as zero:
 ```cpp
-struct P{ long long x,y; };
-long long cross(P a,P b,P c){
+long long EPS = 1e-9;
+int sgn(long double x) {
+    if (x >  EPS) return +1;   // significantly positive
+    if (x < -EPS) return -1;   // significantly negative
+    return 0;                  // close enough to zero
+}
+```
+Useful for comparisons with tolerance
+
+
+## Points & Vectors
+**Point** (**Vector**)
+most robust:
+```cpp
+struct P { 
+    long long x, y; 
+    P operator+(P o)const{return {x+o.x,y+o.y};}
+    P operator-(P o)const{return {x-o.x,y-o.y};}
+    P operator*(double k)const{return {x*k,y*k};}
+};
+```
+
+via this all operations are already available:
+```cpp
+using P = complex<long double>;
+```
+where
+```cpp
+P p(x,y);
+long double x = p.real(), y = p.imag();
+```
+
+**Squared Distance**
+```cpp
+long long sqdist(P a, P b) {
+
+}
+```
+
+**Dot Product** (scalar product)
+```cpp
+double dot(P a,P b){ 
+    return a.x*b.x + a.y*b.y; 
+}
+```
+
+**Cross Product** (vector product)
+```cpp
+long long cross(P a, P b, P c){
     return (b.x-a.x)*(c.y-a.y) - (b.y-a.y)*(c.x-a.x);
 }
 ```
-* `cross>0` left turn, `<0` right turn, `=0` collinear.
-* Distance squared `dsq = (dx*dx + dy*dy)` avoids `sqrt`.
+
+**Counter Clockwise**
+```cpp
+int ccw(P a, P b, P c){ 
+    return sgn(cross(b-a,c-a)); 
+}
+```
+- $>0$: left turn (counter clockwise)
+- $=0$: collinear
+- $<0$: right turn (clockwise)
+
+## Primitives
+
+**Segment**
+two endpoints
+
+**Line**
+two different points
+
+Projection of point onto line
+
+reflection across line
+
+Distance point→line and point→segment
+
+## Intersection Tests
+### Segment-Segment
+- **Input**: Segments `ab` and `cd`
+- **Task**: Decide if `ab` and `cd` cut each other
+- **Observation**: If they cut, `c` and `d` have to be on different sites of `ab` (and other way around)
+```cpp
+bool intersect (P a, P b, P c, P d) {
+    if (ccw(a, b, c) == 0 && ccw(a, b, d) == 0) {
+        if (sqdist(a, b) < sqdist(c, d)) {
+            swap(a, c), swap(b, d);
+        } 
+        int64_t dab = sqdist(a, b);
+        return (sqdist(a, c) <= dab && sqdist(b, c) <= dab) ||
+                (sqdist(a, d) <= dab && sqdist(b, d) <= dab);
+    }
+    return ccw(a, b, c) * ccw(a, b, d) <= 0 &&
+            ccw(c, d, a) * ccw(c, d, b) <= 0;
+}
+```
+
+### Line-Line
+
+...
+
+## Polygons
+
+Area & perimeter
+
+Point-in-polygon (winding vs. ray-cast)
+
+Convex vs. non-convex
+
+
+### Convex Hull
+- **Input**: Set of points `vector <pt> &pts`
+- **Task**: Find smallest konvex polygon which holds `pts`
+- **Observation**: Counter clockwise only Linksknicke
+- **Andrews Algorithm**: Calculate upper and lower hull seperately by sorting each lexicographically, adding the next point and deleting all previous points which create a Rechtsknick
+```cpp
+vector<P> hull(vector<P> &pts) {
+    sort(pts.begin(), pts.end());
+    auto half_hull = [](auto begin, auto end) {
+        vector<P> res(end - begin); // max size of hull
+        int64_t k = 0;               // real size of hull
+        for (auto it = begin; it != end; ++it) {
+            while (k >= 2 && ccw(res[k - 2], res[k - 1], *it) <= 0) --k;
+            res[k++] = *it;
+        }
+        res.resize(k);
+        return res;
+    };
+    vector<P> lower = half_hull(pts.begin(), pts.end());   // forward
+    vector<P> upper = half_hull(pts.rbegin(), pts.rend()); // backwards
+    if (lower.size() == 1) { // edge case: single point
+        return lower;
+    }
+    lower.insert(lower.end(), next(upper.begin()), prev(upper.end()));
+    return lower;
+}
+```
+
+## Closest Pair of Points
+- **Input**: Set of points `vector <pt> &pts`
+- **Task**: Find the two closest points `{p1, p2}` 
+- **Process**: Iterate over the set, updating the *shortest currently known distance* `d` by observing **sweeps** of *width* `d` and *height* `d*2` if any of them are closer than `d`
+```cpp
+pair<P, P> closest_pair(vector<P> &pts)
+{
+    sort(pts.begin(), pts.end(), comp_x);
+    set<P, bool (*)(P, P)> sweep({*pts.begin()}, comp_y); 
+    long double opt = INF; 
+    P p1, p2;
+
+    for (size_t left = 0, right = 1; right < pts.size(); ++right)
+    {
+        while (pts[right].x - pts[left].x >= opt) {
+            sweep.erase(pts[left++]);
+        }
+        auto lower = sweep.lower_bound(P{-INF, pts[right].y - opt});
+        auto upper = sweep.upper_bound(P{-INF, pts[right].y + opt});
+        for (auto it = lower; it != upper; ++it) {
+            long double d = dist(pts[right], *it);
+            if (d < opt) {
+                opt = d;
+                p1 = *it;
+                p2 = pts[right];
+            }
+            sweep.insert(pts[right]);
+        }
+    }
+    return {p1, p2};
+}
+```
+
+## Circle 
+```cpp
+struct circ { P x; long long r; };
+```
+
+Circle–point tests, tangents from a point
+
+Line–circle intersection
+
+Circle–circle intersection & common tangents
+
+Power of a point, radical axis
+
+## Triangle
+
+Area by cross product
+
+Incenter, circumcenter, centroid, orthocenter
+
+## Advanced
+Voronoi diagram
+...
 
 # Mathematics
