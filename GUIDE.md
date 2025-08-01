@@ -1,19 +1,21 @@
 # Table of Contents
 
-- [Practical](#practical)
-- [C++ Basic Overview](#c-basic-overview)
+- [Practical Efficiency](#practical)
+- [C++ Basics](#c-basic-overview)
 - [Datastructures](#datastructures)
 - [Algorithm Design](#algorithm-design)
 - [Sort & Search](#sort--search)
+- [Range Queries](#range-queries)
+- [Dynamic Programming](#dynamic-programming-1)
+  - [Knapsack](#knapsack)
+  - [Longest Subsequence](#longest-subsequence)
 - [Graphs](#graphs)
   - [Data Structures](#data-structures-1)
   - [BFS](#bfs)
   - [DFS](#dfs)
   - [Floyd-Warshall](#floyd-warshall)
   - [Dijkstra](#dijkstra)
-- [Dynamic Programming](#dynamic-programming-1)
-  - [Knapsack](#knapsack)
-  - [Longest Subsequence](#longest-subsequence)
+- [Trees](#strings)
 - [Strings](#strings)
 - [Geometry](#geometry)
 - [Mathematics](#mathematics)
@@ -53,6 +55,9 @@ cin.tie(nullptr);
 | Bitmask DP / enumerate all subsets | $\mathcal O(2^{n})$ | $n \le 20$ |
 | Backtracking all permutations | $\mathcal O(n!)$ | $n \le 11$ |
 
+## Contest Learnings
+
+- Really make sure you **fully read the problem description**, especially to discover properties which **limit possible result cases**
 # C++ Basic Overview
 
 ## Input
@@ -86,6 +91,8 @@ sort(v.begin(), v.end(), greater<>()); // descending
 equal(v.begin(), v.begin()+n/2, v.rbegin()); // palindrome
 ```
 
+## Bit Manipulation
+
 ## Data Types
 | Type | Size / Range | Notable properties |
 |------|--------------|-------------------|
@@ -99,7 +106,8 @@ equal(v.begin(), v.begin()+n/2, v.rbegin()); // palindrome
 | `bool` | $1\text{ B}$ (bit-packed in `vector<bool>`) | logical flags, visited arrays |
 | `size_t` | $8\text{ B},\;[0,\,2^{64}\!-\!1]$ | unsigned type returned by `sizeof`, container sizes |
 
-## Data Structures
+# Basic Datastructures
+
 | Container / Helper | Key operations & complexity | Typical contest use |
 |--------------------|----------------------------|--------------------|
 | `vector<T>` | Dynamic array, index/push_back O(1) amortized | Arrays, graphs, DP tables |
@@ -117,83 +125,93 @@ equal(v.begin(), v.begin()+n/2, v.rbegin()); // palindrome
 | `string` | Access O(1), concat O(n) | Token parsing, hashing, string algorithms |
 | `pair<A,B>`/`tuple<...>` | Structured grouping, lex compare | Edges, multi-value returns |
 
-# Datastructures
+## Arrays
+- `vector`, `array`, `queue`, `dequeue`, `stack`, `bitset<N>`
+- talking about iterators
+- talking about strings
+
+# Specific Containers
+
+
+## Heaps
+- `priority_queue`
+
+## Trees (Ordered Associative)
+- `set`, `map`
+
+## Hash Map (Unordered Associative)
+- `unordered_set`, `unordered_map`
+
+## Utilities
+- `pair`, `tuple`, `optional`, `variant`
+
 
 # Algorithm Design
-## Problemtypes
-* **Decision**: True/False
-* **Search** (Valid Solution)
-* **Construct** (Valid Structure)
+## Problem Categories
+* **Decision**: (True/False)
+* **Search / Construct** (Valid Solution / Structure)
 * **Counting** (Number of Solutions)
 * **Enumeration** (All Solutions)
-* **Approximation** (Near Optimal)
 * **Optimization** (Best Value)
+* **Approximation** (Near Optimal)
+* **Interactive** (Answering Queries)
 
-## Brute Force
-Search through entire solution space for correct one.
-- easy, correct
-- too slow
+## Core Paradigms
 
-## Greedy
-Local optimal decisions need to be globally optimal, since it doesn't take back previous decisions. Otherwise it's incorrect.
-- efficient
-- incorrect for many types of problems
+### 1. Brute Force
+Try **all possibilities** directly.
+- Guaranteed correct if implemented correctly
+- Almost always too slow in runtime
 
-## Divide & Conquer
-* **Idea:** break problem into $k$ sub-instances, solve recursively, merge.
-* **Classic uses:**
-  * Merge sort, quicksort
-  * Closest pair of points $O(n\log n)$
-  * “Divide & Conquer DP” / “CDQ” optimisation $O(n\log n)$
+### 2. Greedy
+Make **locally optimal** decisions, which *(hopefully)* also lead to **global optimum**.
+- Fast and simple when valid
+- Incorrect for many types of problems
+- Requires justification through invariant or exchange argument
 
-## Backtracking
-1. **Filter**: Generate all possible candidates (raw recursion - validation at end)
-2. **Generator**: Generate only valid candidates (recursion with logic at every step)
-3. **Pruning**: Try to recognize invalid solutions during generation and only continue working on possible valid ones
+### 3. Divide & Conquer
+Split problem into **disjoint** subproblems, solve each recursively, then merge results.
+- Reduces complexity by splitting up search space
 
-## Parametric Search
-- Solution $x$ doesn't work => smaller $<x$ won't either
-- Solution $x$ works => bigger $>x$ will too
-*(the reverse is also possible)*
-Implement **predicate** `can(x)`; binary-search smallest/largest `x` for quick checks.
+### 4. Dynamic Programming
+Break a problem into **overlapping** subproblems, cache results and then reuse them.
+- **Top-down**: recursion + memoization.  
+- **Bottom-up**: iterative filling of a table
+- Requires state definition and transitions.
 
-## Dynamic Programming
-1. Segment hard problem into easier problems
-2. Solve each problem independently
-3. Bring the solutions together to solve the hard problem
+### 5. Modeling & Structure
+Rephrase the problem so known structures apply.
+- Take datastructure and construct it in a fitting way
+- Reduce problem to easier known problem
+- Examples: Graphs, Union-Find, Fenwick, Compression
 
-### Bottom Up
-1. Define Sequence of which problems get solved
-2. Save sub-solutions
-3. Solve bigger problem with sub-solutions
 
-### Top-Down
-1. Segment hard problem into easier problems
-2. Define Recursion Formula
-3. Solution Known => Use it
-3. Solution Unknown => Solve and then save it, so you dont have to do it again (**Memoisation**)
-
-# Sort & Search
+# Sorting & Searching
 ## BinarySearch
 Search for biggest element in sorted list. Split up search space each round.
-```pseudo
-function binarySearch(A, target)
-    low ← 0
-    high ← |A| − 1
-    while low ≤ high do
-        mid ← low + (high − low) / 2 // overflow-safe
-        if A[mid] == target then return mid
-        if A[mid] < target then low ← mid + 1 // go right
-        else high ← mid − 1 // go left
-    return −1 // not in A
+```cpp
+int binary_search_idx(vector<int>& A, int target) {
+    int low = 0;
+    int high = A.size() - 1;
+    while (low <= high) {
+        int mid = low + (high - low) / 2; // overflow safe
+        if (A[mid] == target) return mid; // succesfuly found target
+        if (A[mid] < target) low = mid + 1; // go right
+        else high = mid - 1; // go left
+    }
+    return -1; // not in A
+}
 ```
 In C++ there are:
-| Function | Meaning | Typical use |
+| Function | Returns | Meaning |
 |----------|---------|-------------|
-| `binary_search(first, last, val)` | Returns **`true`** iff `val` exists in `[first, last)`. | Quick membership test. |
-| `lower_bound(first, last, val)` | Iterator to **first element `≥ val`** (or `last` if none). | Insert position that keeps the range sorted. |
-| `upper_bound(first, last, val)` | Iterator to **first element `> val`** (strictly greater). | Right end of the run of equal keys. |
-| `equal_range(first, last, val)` | Returns `{lower_bound, upper_bound}`. | Span of all elements equal to `val`. |
+| `binary_search(first, last, val)` | **`true`** $\iff$ `val` exists in `[first, last)`. | 	Existence test in sorted range |
+| `lower_bound(first, last, val)` | Iterator to **first element `≥ val`** (or `last` if none). | First occurrence |
+| `upper_bound(first, last, val)` | Iterator to **first element `> val`** (strictly greater). | End of equal range |
+| `equal_range(first, last, val)` | **Pair of iterators** `[lower_bound, upper_bound)`. | Range of elements equal to `val` |
+
+# Range Queries
+
 
 # Graphs
 ## Data Structures
