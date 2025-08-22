@@ -195,6 +195,14 @@ Rephrase the problem so known structures apply.
 
 
 # Sorting & Searching
+Basic methods include
+- `sort(vector.begin(), vector.end())` most basic ASC sort
+- `sort(vector.begin(), vector.end(), greater<ll>());` most basic DESC sort
+
+## Iterators
+- `.front()` returns reference to first element
+- `.begin()` returns iterator to first element (you want to use for iterations)
+
 ## BinarySearch
 Search for biggest element in sorted list. Split up search space each round.
 ```cpp
