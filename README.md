@@ -138,7 +138,14 @@ equal(v.begin(), v.begin()+n/2, v.rbegin()); // palindrome
 - `priority_queue`
 
 ## Trees (Ordered Associative)
-- `set`, `map`
+Based on Balanced BST.
+- `set`
+    * typical `set.insert()`, ``
+    * we can only operate on iterators through `set.begin()`/`set.end()`, `next(iterator,steps)`
+    * also `set.find(element)` gives back an iterator. Check if the element has been found via `iterator != set.end()`
+    * to traverse use `for (auto it = set.begin(); it != set.end(); it++){ cout << *it; }`
+    * since sets only store unique values `set.size()` gives back the count of distinct values
+- `map`
 
 ## Hash Map (Unordered Associative)
 - `unordered_set`, `unordered_map`
