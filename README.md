@@ -97,7 +97,7 @@ equal(v.begin(), v.begin()+n/2, v.rbegin()); // palindrome
 ## Data Types
 | Type | Size / Range | Notable properties |
 |------|--------------|-------------------|
-| `int` | $4\text{ B},\;[-2^{31},\,2^{31}\!-\!1]$ | fastest arithmetic, default loop index |
+| `int` | $4\text{ B},\;[-2^{31},\,2^{31}\!-\!1]$ so about $2.15 \cdot 10^9$ | fastest arithmetic, default loop index |
 | `long long` | $8\text{ B},\;\approx[-9{\times}10^{18},\,9{\times}10^{18}]$ | 64-bit signed, safe for most sums/products |
 | `unsigned int` | $4\text{ B},\;[0,\,2^{32}\!-\!1]$ | wrap-around mod $2^{32}$; bit masks |
 | `unsigned long long` | $8\text{ B},\;[0,\,2^{64}\!-\!1]$ | 64-bit unsigned, modular hashes |
