@@ -195,9 +195,30 @@ Rephrase the problem so known structures apply.
 
 
 # Sorting & Searching
-Basic methods include
+First you need to sort your container via
 - `sort(vector.begin(), vector.end())` most basic ASC sort
 - `sort(vector.begin(), vector.end(), greater<ll>());` most basic DESC sort
+
+Then you can search for elements via
+| Function | Returns | Meaning |
+|----------|---------|-------------|
+| `binary_search(first, last, val)` | **`true`** $\iff$ `val` exists in `[first, last)`. | 	Existence test in sorted range |
+| `lower_bound(first, last, val)` | Iterator to **first element `≥ val`** (or `last` if none). | First element of the equal-or-greater range |
+| `upper_bound(first, last, val)` | Iterator to **first element `> val`** (or `first` if none). | End of equal range |
+| `equal_range(first, last, val)` | **Pair of iterators** `[lower_bound, upper_bound)`. | Range of elements equal to `val` |
+
+If you want **Floor** (largest $\leq x$):
+```cpp
+auto it = A.upper_bound(x);
+if (it == A.begin()) // implies there are no values <= x in A
+else { --it; cout << *it; } // it is largest value <= x in A
+```
+If you want **Ceil** (smallest $\geq x$):
+```cpp
+auto it = A.lower_bound(x);
+if (it == A.end()) // implies there are no values >= x in A
+else { cout << *it; } // it is smallest value >= x in A
+```
 
 ## Iterators
 - `.front()` returns reference to first element
@@ -218,14 +239,6 @@ int binary_search_idx(vector<int>& A, int target) {
     return -1; // not in A
 }
 ```
-In C++ there are:
-| Function | Returns | Meaning |
-|----------|---------|-------------|
-| `binary_search(first, last, val)` | **`true`** $\iff$ `val` exists in `[first, last)`. | 	Existence test in sorted range |
-| `lower_bound(first, last, val)` | Iterator to **first element `≥ val`** (or `last` if none). | First occurrence |
-| `upper_bound(first, last, val)` | Iterator to **first element `> val`** (strictly greater). | End of equal range |
-| `equal_range(first, last, val)` | **Pair of iterators** `[lower_bound, upper_bound)`. | Range of elements equal to `val` |
-
 
 # Graphs
 ## Structures
