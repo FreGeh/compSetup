@@ -152,7 +152,6 @@ I would appreciate any help to keep it up to date and fix any errors and add imp
 ## How
 1. For new additions or specific modifications create [Pull Requests](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request)
 2. For general suggestions create an [Issue](https://github.com/FreGeh/competitiveProgrammingSetup/issues/new/choose)
-3. Or just message me directly per E-Mail (fregeh7@gmail.com)  
 
 ## ToDos
 - add more ressources, but keep it short
