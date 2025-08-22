@@ -1,4 +1,4 @@
-*See [Getting Started](https://github.com/FreGeh/cpSetup/blob/master/SETUP.md) to learn how to setup your environment and walk your first steps in the competitive programming world!*
+*See [Getting Started](./SETUP.md) to learn how to setup your environment and walk your first steps in the competitive programming world!*
 # Practical Competitive Programming Handbook
 - [Competition Basics](#competition-basics)
 - [C++ Basics](#c-basic-overview)
