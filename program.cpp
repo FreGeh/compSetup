@@ -19,10 +19,7 @@ int main() {
     cin.tie(nullptr);
 #endif
 
-    int tests;
-    cin >> tests;
-
+    int tests; cin >> tests;
     while (tests-- > 0) solve();
-
     return 0;
 }
