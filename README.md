@@ -76,6 +76,13 @@ for (int &x : A) {
 }
 ```
 
+### for older USACO
+put this at the top
+```cpp
+freopen("problemname.in", "r", stdin);
+freopen("problemname.out", "w", stdout);
+```
+
 ## Output
 - `cout <<` standard
 - `(statement ? "true" : "false")` to output a value depending on the bool value of the `statement`
