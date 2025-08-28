@@ -203,8 +203,8 @@ Rephrase the problem so known structures apply.
 
 # Sorting & Searching
 First you need to sort your container via
-- `sort(vector.begin(), vector.end())` most basic ASC sort
-- `sort(vector.begin(), vector.end(), greater<ll>());` most basic DESC sort
+- `sort(vector.begin(), vector.end())` most basic **ASC** sort
+- `sort(vector.begin(), vector.end(), greater<ll>());` most basic **DESC** sort
 
 Then you can search for elements via
 | Function | Returns | Meaning |
@@ -246,6 +246,32 @@ int binary_search_idx(vector<int>& A, int target) {
     return -1; // not in A
 }
 ```
+## Prefix Sums
+We want to find out the sum of a specific $[l,r)$ interval (subarray $a_l,\dots,a_{r-1}$) in our ($0$-based) array `A`. The naive approach would be to calculate it for each of our $q$ queries. This would lead to $O(n\cdot q)$ runtime.
+
+The solution is **Prefix Sums**. We calculate on the fly for each element $i$ in the array, what the sum for interval $[0,i)$ is ($\sum_{j=0}^{i-1}a_j$) and assign that value to `prefix[i]=A[0]+ ... + A[i-1]`. Runtime is $O(n)$ for preprocessing and $O(1)$ per query. So $O(n+q)$ in total.
+
+**Building**: `vector<ll> prefix(n+1,0)` with `prefix[0]=0` and then iterate with an index, e.g.  
+`for (int i = 0; i < n; ++i) prefix[i+1] = prefix[i] + A[i];`
+
+To then get the **value of interval** (subarray $a_l,\dots,a_{r-1}$) $[l,r)$ you simply compute the difference of prefixes $\sum_{j=l}^{r-1} a_j = \text{prefix}[r] - \text{prefix}[l]$.
+
+In general an interval is *open*, so **exclusive** with `(` and *closed*, so **inclusive** with `]`.
+
+So all intervals for a **$0$-based** array are defined as:
+- $[l,r)$ => `sum = prefix[r] - prefix[l]` **(recommended)** (non empty $\iff r > l$)
+- $[l,r]$ => `sum = prefix[r+1] - prefix[l]` (non empty $\iff r \geq l$; requires $r < n$)
+- $(l,r)$ => `sum = prefix[r] - prefix[l+1]` (non empty $\iff r > l+1$)
+- $(l,r]$ => `sum = prefix[r+1] - prefix[l+1]` (non empty $\iff r > l$)
+
+
+### Usecases
+- **Count amount** of subarrays with **specific property** => use map/vector of counts
+    * *Subarrays which `sum==x`*: keep map `cnt[pref]`, scan `pref+=a[i]`, results in `res+=cnt[pref-x]` and `cnt[pref]++`
+    * *Subarrays which `sum%x==0`*: bucket by remaining value `r=(pref % x + x) % x`, results in `res+=seen[r]` and `seen[r]++`
+- Max length subarray => store earliest+latest index per key
+- divisibility, modulo
+
 
 # Graphs
 ## Structures
