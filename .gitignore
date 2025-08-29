@@ -1,4 +1,5 @@
 .vscode
+.cph
 input.txt
 output.txt
 program.cpp

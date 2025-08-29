@@ -32,22 +32,6 @@ Since platforms like **Codeforces** and local contests like ICPC run on **Linux-
 3. **Restart** your PC.
 4. **Launch Ubuntu** from the Start Menu and set up your user.
 
-### Optional: Rename WSL Instance
-<details>
-<summary>Click to expand</summary>
-
-If you already have WSL installed or plan to have multiple instances, organizing them helps.
-
-1. **Open** a new PowerShell/Terminal (Admin).
-2. Install an **additional instance**: `wsl --install -d Ubuntu-24.04`.
-3. Create a **folder** for new WSL instances: `mkdir C:\WSL`.
-4. **Export** the instance: `wsl --export Ubuntu-24.04 C:\WSL\UbuntuBackup.tar`.
-5. **Unregister** the instance: `wsl --unregister Ubuntu-24.04`.
-6. **Register** the instance with a custom name: `wsl --import CompetitiveProgramming C:\WSL\CompetitiveProgramming C:\WSL\UbuntuBackup.tar`.
-7. Open Terminal and **select** your **new Ubuntu instance** `CompetitiveProgramming` from the `+` dropdown.
-</details>
-
-
 ## Ubuntu Setup (Everyone)
 1. **Update** everything: `sudo apt update && sudo apt upgrade -y`.
 2. Install **development tools**: `sudo apt install -y build-essential git`.
@@ -57,6 +41,8 @@ If you already have WSL installed or plan to have multiple instances, organizing
 6. Open the folder or `program.cpp` in your IDE/text editor (**VSCode**: `code .`).
 
 # Solve a Problem on Codeforces
+
+> You can **simplify** a lot of this process by combining [Competitive Companion](https://github.com/jmerle/competitive-companion) with [Competitive Programming Helper](https://github.com/agrawal-d/cph).
 
 ## 1. Choose a Problem
 1. Visit **Codeforces** (https://codeforces.com/) and log in or sign up.
