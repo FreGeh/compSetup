@@ -1,0 +1,16 @@
+{
+  "C++ solution markdown": {
+    "prefix": "templ_solution",
+    "body": [
+      "## Problem",
+      "- **Intuition**:",
+      "- **Runtime**:",
+      "",
+      "```cpp",
+      "${1:// your code here}",
+      "```",
+      "$0"
+    ],
+    "description": "Markdown solution block with C++ code fence"
+  }
+}
