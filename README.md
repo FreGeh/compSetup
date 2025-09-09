@@ -58,6 +58,7 @@ cin.tie(nullptr);
 ## Contest Learnings
 
 - Really make sure you **fully read the problem description**, especially to discover properties which **limit possible result cases**
+
 # C++ Basic Overview
 
 ## Input
@@ -200,6 +201,44 @@ Rephrase the problem so known structures apply.
 - Reduce problem to easier known problem
 - Examples: Graphs, Union-Find, Fenwick, Compression
 
+### 6. Sweep line and offline queries
+**When to use**: Many queries on existence or threshold in a specific range $l,r$ needed
+**Datastructures**: Event Bucketing
+
+# Advanced Datastructures
+
+## Monotone Stacks
+Compute nearest constraint in $O(n)$ for each position.
+
+Here `prevGreater` for storing index `j` of previous element `a[j] > a[i]`
+```cpp
+// prevGreater[i]: last j<i with a[j] > a[i], else -1
+vector<int> prevGreater(int n, const vector<int>& a) {
+    vector<int> st, L(n, -1);
+    for (int i = 0; i < n; i++) {
+        while (!st.empty() && a[st.back()] <= a[i]) st.pop_back();
+        L[i] = st.empty() ? -1 : st.back();
+        st.push_back(i);
+    }
+    return L;
+}
+
+// nextSmaller[i]: first j>i with a[j] < a[i], else n
+vector<int> nextSmaller(int n, const vector<int>& a) {
+    vector<int> st, R(n, n);
+    for (int i = n - 1; i >= 0; i--) {
+        while (!st.empty() && a[st.back()] >= a[i]) st.pop_back();
+        R[i] = st.empty() ? n : st.back();
+        st.push_back(i);
+    }
+    return R;
+}
+```
+
+## Trees
+
+
+
 
 # Sorting & Searching
 First you need to sort your container via
@@ -272,6 +311,9 @@ So all intervals for a **$0$-based** array are defined as:
 - Max length subarray => store earliest+latest index per key
 - divisibility, modulo
 
+## Prefix aggregates for range existence
+
+exists a witness inside [l, r] that the property needed is not met
 
 # Graphs
 ## Structures
@@ -460,12 +502,7 @@ for(int64_t i = 1; i <= n; ++i)
 
 ## Coins
 
-
 ## Longest Subsequence
-
-# Advanced Datastructures
-
-## Trees
 
 # Strings
 
