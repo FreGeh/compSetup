@@ -112,6 +112,66 @@ g++ -std=c++20 -O2 -Wall -DDEBUG program.cpp -o program
 
 This setup allows efficient debugging by integrating **variable inspection** directly into your code **without impacting the production build**.
 
+# Using VSCode Snippets
+
+To make your workflow smoother you can use snippets in VSCode. Create a file inside the folder `.vscode` named `programs.cpp.code-snippets` with this content:
+```
+{
+  "C++ Competitive Template - TESTCASES": {
+    "scope": "cpp",
+    "prefix": "templ_test",
+    "body": [
+      "#include \"bits/stdc++.h\"",
+      "using namespace std;",
+      "#define ll long long",
+      "",
+      "// Conditional compilation",
+      "#ifdef DEBUG",
+      "#include \"debug.h\"",
+      "#else",
+      "#define debug(...) do { } while(0)",
+      "#endif",
+      "",
+      "void solve() {",
+      "    $1",
+      "}",
+      "",
+      "int main() {",
+      "    ios::sync_with_stdio(false); ",
+      "#ifndef DEBUG",
+      "    cin.tie(nullptr);",
+      "#endif",
+      "",
+      "    int tests; cin >> tests;",
+      "    while (tests-- > 0) solve();",
+      "    return 0;",
+      "}",
+      "$0"
+    ],
+    "description": "snippet for setup with multiple testcases"
+  },
+
+  "C++ Competitive Template - BASIC": {
+    "scope": "cpp",
+    "prefix": "templ_basic",
+    "body": [
+      "#include \"bits/stdc++.h\"",
+      "using namespace std;",
+      "#define ll long long",
+      "",
+      "int main() {",
+      "    ios::sync_with_stdio(false); cin.tie(nullptr);",
+      "",
+      "    $1",
+      "",
+      "    return 0;",
+      "}",
+      "$0"
+    ],
+    "description": "snippet for minimal setup"
+  }
+}
+```
 
 # Where to Go Next
 

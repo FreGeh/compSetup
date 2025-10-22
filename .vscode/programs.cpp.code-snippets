@@ -1,7 +1,7 @@
 {
   "C++ Competitive Template - TESTCASES": {
     "scope": "cpp",
-    "prefix": "templ_testcase",
+    "prefix": "templ_test",
     "body": [
       "#include \"bits/stdc++.h\"",
       "using namespace std;",
@@ -15,7 +15,7 @@
       "#endif",
       "",
       "void solve() {",
-      "    ${1:// solve one test case here}",
+      "    $1",
       "}",
       "",
       "int main() {",
@@ -30,7 +30,7 @@
       "}",
       "$0"
     ],
-    "description": "Competitive programming template (multiple testcases) with DEBUG macro"
+    "description": "snippet for setup with multiple testcases"
   },
 
   "C++ Competitive Template - BASIC": {
@@ -44,27 +44,12 @@
       "int main() {",
       "    ios::sync_with_stdio(false); cin.tie(nullptr);",
       "",
-      "    ${1:// your code here}",
+      "    $1",
       "",
       "    return 0;",
       "}",
       "$0"
     ],
-    "description": "Minimal C++ template (single/main)"
-  },
-  "C++ solution markdown": {
-	"scope": "markdown",
-	"prefix": "templ_solution",
-	"body": [
-      "## Problem",
-      "- **Intuition**:",
-      "- **Runtime**:",
-      "",
-      "```cpp",
-      "    ${1:// your code here}",
-      "```",
-      "$0"
-    ],
-	"description": "solution template"
+    "description": "snippet for minimal setup"
   }
 }
