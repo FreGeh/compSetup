@@ -285,6 +285,9 @@ int binary_search_idx(vector<int>& A, int target) {
     return -1; // not in A
 }
 ```
+
+Important to remember is that you can not only do Binary Search on a specific array, but also to find the perfect value for a specific function e.g.
+
 ## Prefix Sums
 We want to find out the sum of a specific $[l,r)$ interval (subarray $a_l,\dots,a_{r-1}$) in our ($0$-based) array `A`. The naive approach would be to calculate it for each of our $q$ queries. This would lead to $O(n\cdot q)$ runtime.
 
