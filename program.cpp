@@ -2,7 +2,6 @@
 using namespace std;
 #define ll long long
 
-// Conditional compilation
 #ifdef DEBUG
 #include "debug.h"
 #else
