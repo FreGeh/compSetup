@@ -274,15 +274,16 @@ else { cout << *it; } // it is smallest value >= x in A
 Search for biggest element in sorted list. Split up search space each round.
 ```cpp
 int binary_search_idx(vector<int>& A, int target) {
-    int low = 0;
-    int high = A.size() - 1;
-    while (low <= high) {
-        int mid = low + (high - low) / 2; // overflow safe
-        if (A[mid] == target) return mid; // succesfuly found target
-        if (A[mid] < target) low = mid + 1; // go right
-        else high = mid - 1; // go left
+    // A sorted array is stored as a[0], a[1], ..., a[n-1]
+    int l = -1, r = n;
+    while (r - l > 1) {
+        int m = (l + r) / 2;
+        if (k < a[m]) {
+            r = m; // a[l] <= k < a[m] <= a[r]
+        } else {
+            l = m; // a[l] <= a[m] <= k < a[r]
+        }
     }
-    return -1; // not in A
 }
 ```
 
