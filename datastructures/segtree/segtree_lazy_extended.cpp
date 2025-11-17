@@ -1,0 +1,146 @@
+#include "bits/stdc++.h"
+using namespace std;
+#define ll long long
+
+struct SegTree_Lazy {
+    int n;
+    vector<ll> seg, lazy;
+    vector<ll> mx, bloom;
+
+    SegTree_Lazy() : n(0) {}
+    explicit SegTree_Lazy(int n_) { 
+        init(n_); 
+    }
+
+    void init(int n_) { 
+        n=n_; 
+        seg.assign(4*n,0); 
+        lazy.assign(4*n,0); 
+
+        mx.assign(4*n, LLONG_MIN);
+        bloom.assign(4*n, LLONG_MAX);
+    }
+
+    void build(const vector<ll>& a) { 
+        build(1,0,n-1,a); 
+    }
+
+    void add(int l,int r,ll v) { 
+        update(1,0,n-1,l,r,v); 
+    }
+
+    ll sum(int l,int r) { 
+        return query_sum(1,0,n-1,l,r); 
+    }
+
+    ll range_max(int l, int r) { 
+        return query_max(1, 0, n-1, l, r); 
+    }
+
+    ll range_min(int l, int r) { 
+        return query_min(1, 0, n-1, l, r); 
+    }
+
+    ll point_get(int i) { 
+        return sum(i, i); 
+    }
+
+    int first_geq(int ql, int qr, ll x) { // first index in [ql, qr] where value >= x, if none -> -1
+        return first_geq(1, 0, n-1, ql, qr, x);
+    }
+
+    int last_geq(int ql, int qr, ll x) { // last index in [ql, qr] where value >= x, if none -> -1
+        return last_geq(1, 0, n-1, ql, qr, x);
+    }
+
+private:
+    void build(int v, int l, int r, const vector<ll>& a) {
+        if(l==r){ 
+            seg[v] = mx[v] = bloom[v] = a[l];
+            return; 
+        }
+        int m=(l+r)/2;
+        build(v*2,l,m,a);
+        build(v*2+1,m+1,r,a);
+        pull(v);
+    }
+
+    inline void apply(int v, int l, int r, ll add) {
+        seg[v]+=add*(r-l+1);
+        lazy[v]+=add;
+
+        mx[v] += add;
+        bloom[v] += add;
+    }
+
+    inline void push(int v, int l, int r) { //forward pending lazy tag 
+        if(lazy[v]==0 || l==r) return;
+        int m=(l+r)/2;
+        apply(v*2,l,m,lazy[v]);
+        apply(v*2+1,m+1,r,lazy[v]);
+        lazy[v]=0;
+    }
+
+    inline void pull(int v) { // recompute stats
+        seg[v] = seg[v*2] + seg[v*2+1];
+        mx[v] = max(mx[v*2], mx[v*2+1]);
+        bloom[v] = min(bloom[v*2], bloom[v*2+1]);
+    }
+
+    void update(int v, int l, int r, int ql, int qr, ll add_val) {
+        if(ql>qr) return;
+        if(ql==l && qr==r){ 
+            apply(v,l,r,add_val); 
+            return; 
+        }
+        push(v, l, r);
+        int m=(l+r)/2;
+        update(v*2,l,m,ql,min(qr,m),add_val);
+        update(v*2+1,m+1,r,max(ql,m+1),qr,add_val);
+        pull(v);
+    }
+
+    ll query_sum(int v, int l, int r, int ql, int qr) {
+        if (ql > qr) return 0;
+        if (ql == l && qr == r) return seg[v];
+        push(v, l, r);
+        int m = (l + r) / 2;
+        return query_sum(v*2, l, m, ql, min(qr, m)) + query_sum(v*2+1, m+1, r, max(ql, m+1), qr);
+    }
+
+    ll query_max(int v, int l, int r, int ql, int qr) {
+        if (ql > qr) return LLONG_MIN;
+        if (ql == l && qr == r) return mx[v];
+        push(v, l, r);
+        int m = (l + r) / 2;
+        return max(query_max(v*2, l, m, ql, min(qr, m)), query_max(v*2+1, m+1, r, max(ql, m+1), qr));
+    }
+
+    ll query_min(int v, int l, int r, int ql, int qr) {
+        if (ql > qr) return LLONG_MAX;
+        if (ql == l && qr == r) return bloom[v];
+        push(v, l, r);
+        int m = (l + r) / 2;
+        return min(query_min(v*2, l, m, ql, min(qr, m)), query_min(v*2+1, m+1, r, max(ql, m+1), qr));
+    }
+
+    int first_geq(int v, int l, int r, int ql, int qr, ll x) {
+        if (qr < l || r < ql || mx[v] < x) return -1;
+        if (l == r) return l;
+        push(v, l, r);
+        int m = (l + r) / 2;
+        int left = first_geq(v*2, l, m, ql, qr, x);
+        if (left != -1) return left;
+        return first_geq(v*2+1, m+1, r, ql, qr, x);
+    }
+
+    int last_geq(int v, int l, int r, int ql, int qr, ll x) {
+        if (qr < l || r < ql || mx[v] < x) return -1;
+        if (l == r) return r;
+        push(v, l, r);
+        int m = (l + r) / 2;
+        int right = last_geq(v*2+1, m+1, r, ql, qr, x);
+        if (right != -1) return right;
+        return last_geq(v*2, l, m, ql, qr, x);
+    }
+};
