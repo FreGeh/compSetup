@@ -2,39 +2,71 @@
 using namespace std;
 #define ll long long
 
-template <class T>
-struct Segment_Tree_Sum {
-    // Index 0 unused, 1 = Root, 1 to len-1 = Internal, len to 2*len-1 = Leaves
+struct SegTree {
+    int len = 0;
+    vector<ll> sum_t, min_t, max_t;
 
-    const T DEFAULT = 0;
-    int len;
-    vector<T> tree;
+    void pull(int v) {
+        sum_t[v] = sum_t[v * 2] + sum_t[v * 2 + 1];
+        min_t[v] = min(min_t[v * 2], min_t[v * 2 + 1]);
+        max_t[v] = max(max_t[v * 2], max_t[v * 2 + 1]);
+    }
 
-    Segment_Tree_Sum(const vector<T>& initial_values)
-        : len(initial_values.size()), tree(len * 2, DEFAULT) {
+    SegTree(int n = 0) {
+        if (n > 0) init(n);
+    }
+
+    void init(int n) {
+        len = n;
+        sum_t.assign(2 * len, 0);
+        min_t.assign(2 * len, LLONG_MAX);
+        max_t.assign(2 * len, LLONG_MIN);
+    }
+
+    void build(const vector<ll>& a) {
+        init((int)a.size());
         for (int i = 0; i < len; ++i) {
-            tree[len + i] = initial_values[i];
+            sum_t[len + i] = min_t[len + i] = max_t[len + i] = a[i];
         }
         for (int i = len - 1; i > 0; --i) {
-            tree[i] = tree[i*2] + tree[i*2+1];
+            pull(i);
         }
     }
 
-    void set(int index, T new_val) {
+    void set(int index, ll new_val) {
         index += len;
-        tree[index] = new_val;
+        sum_t[index] = min_t[index] = max_t[index] = new_val;
         for (index /= 2; index >= 1; index /= 2) {
-            tree[index] = tree[index*2] + tree[index*2+1];
+            pull(index);
         }
     }
 
-    // [left, right) interval
-    T query(int left, int right) {
-        T sum = DEFAULT;
+    // range queries [left, right)
+
+    ll query_sum(int left, int right) {
+        ll res = 0;
         for (left += len, right += len; left < right; left /= 2, right /= 2) {
-            if (left % 2 == 1) { sum += tree[left++]; }
-            if (right % 2 == 1) { sum += tree[--right]; }
+            if (left % 2 == 1) res += sum_t[left++];
+            if (right % 2 == 1) res += sum_t[--right];
         }
-        return sum;
+        return res;
+    }
+
+    ll query_min(int left, int right) {
+        ll res = LLONG_MAX;
+        for (left += len, right += len; left < right; left /= 2, right /= 2) {
+            if (left % 2 == 1) res = min(res, min_t[left++]);
+            if (right % 2 == 1) res = min(res, min_t[--right]);
+        }
+        return res;
+    }
+
+    ll query_max(int left, int right) {
+        ll res = LLONG_MIN;
+        for (left += len, right += len; left < right; left /= 2, right /= 2) {
+            if (left % 2 == 1) res = max(res, max_t[left++]);
+            if (right % 2 == 1) res = max(res, max_t[--right]);
+        }
+        return res;
     }
 };
