@@ -5,7 +5,7 @@ using namespace std;
 struct SegTree_Lazy {
     int n;
     vector<ll> seg, lazy;
-    vector<ll> mx, bloom;
+    vector<ll> mx, mn;
 
     SegTree_Lazy() : n(0) {}
     explicit SegTree_Lazy(int n_) { 
@@ -18,7 +18,7 @@ struct SegTree_Lazy {
         lazy.assign(4*n,0); 
 
         mx.assign(4*n, LLONG_MIN);
-        bloom.assign(4*n, LLONG_MAX);
+        mn.assign(4*n, LLONG_MAX);
     }
 
     void build(const vector<ll>& a) { 
@@ -56,7 +56,7 @@ struct SegTree_Lazy {
 private:
     void build(int v, int l, int r, const vector<ll>& a) {
         if(l==r){ 
-            seg[v] = mx[v] = bloom[v] = a[l];
+            seg[v] = mx[v] = mn[v] = a[l];
             return; 
         }
         int m=(l+r)/2;
@@ -70,7 +70,7 @@ private:
         lazy[v]+=add;
 
         mx[v] += add;
-        bloom[v] += add;
+        mn[v] += add;
     }
 
     inline void push(int v, int l, int r) { //forward pending lazy tag 
@@ -84,7 +84,7 @@ private:
     inline void pull(int v) { // recompute stats
         seg[v] = seg[v*2] + seg[v*2+1];
         mx[v] = max(mx[v*2], mx[v*2+1]);
-        bloom[v] = min(bloom[v*2], bloom[v*2+1]);
+        mn[v] = min(mn[v*2], mn[v*2+1]);
     }
 
     void update(int v, int l, int r, int ql, int qr, ll add_val) {
@@ -118,7 +118,7 @@ private:
 
     ll query_min(int v, int l, int r, int ql, int qr) {
         if (ql > qr) return LLONG_MAX;
-        if (ql == l && qr == r) return bloom[v];
+        if (ql == l && qr == r) return mn[v];
         push(v, l, r);
         int m = (l + r) / 2;
         return min(query_min(v*2, l, m, ql, min(qr, m)), query_min(v*2+1, m+1, r, max(ql, m+1), qr));
