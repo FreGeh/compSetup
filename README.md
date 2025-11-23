@@ -235,11 +235,6 @@ vector<int> nextSmaller(int n, const vector<int>& a) {
 }
 ```
 
-## Trees
-
-
-
-
 # Sorting & Searching
 First you need to sort your container via
 - `sort(vector.begin(), vector.end())` most basic **ASC** sort
@@ -351,7 +346,7 @@ So all intervals for a **$0$-based** array are defined as:
 exists a witness inside [l, r] that the property needed is not met
 
 # Graphs
-## Structures
+## Data Structures
 ### Adjacency Matrice
 - **Description**: $n \times n$ Matrice. $A_{i,j}=1$ means there is an edge from vertice $i$ to $j$
 - **Space**: $O(n^2)$
@@ -373,7 +368,9 @@ exists a witness inside [l, r] that the property needed is not met
 - **Test Edge**: $O(m)$
 - **Implementation**: ``vector<pair<int,int>> edges``
 
-## Breadth-First Search
+## Graph Traversal
+
+### Breadth-First Search (BFS)
 - **Purpose**: Find shortest paths in unweighted Graph (and discover connectivity by layers)
 - **Description**: Level‐by‐level (breadth‐first) exploration from the start vertex $s$
 - **Runtime**: $O(n+m)$
@@ -407,7 +404,7 @@ for (int w = 0; w < n; ++w) {
 }
 ```
 
-## Depth-First Search
+### Depth-First Search (DFS)
 - **Purpose**: Detect connectivity, reachability, cycles. Construct Paths. Perform topological sorting. Solve *backtracking* problems.
 - **Description**: Explores Graph greedy from starting vertice $s$
 - **Runtime**: $O(n+m)$
@@ -436,27 +433,20 @@ for (int w = 0; w < n; ++w) {
 }
 ```
 
-## Floyd-Warshall
-- **Purpose**: Find all shortest Paths in a (weighted) Graph
-- **Description**: Iterates over all vertice combinations
-- **Runtime**: $O(n^3)$
-- **Input**: Adjacency Matrice
-- **Output**: 2D Array `mat` where `mat[i][j]`= shortest distance from vertice $i$ to $j$
-- **Code**:
-```cpp
-// Initialize: mat [i][j] = infty
-for (k = 0; k < n; k++) {
-    for (i = 0; i < n; i++) {
-        for (j = 0; j < n; j++) {
-            if (mat[i][k] + mat[k][j] < mat[i][j]) {
-                mat[i][j] = mat[i][k] + mat[k][j];
-            }
-        }
-    }
-}
-```
+### Connectivity
+Graph $G$ is **connected** $\iff$ there is a path $v_i \to \dots \to v_j$ between any distinct nodes $v_i,v_j\in V$.
 
-## Dijkstra
+So we can just start at any node and test if we can reach all other nodes (for example with DFS).
+
+### Cycles
+Graph $G$ **contains a cycle** $\iff$ during traversal we find a neighbour node which has already been visited (except prev node of path) $\iff$ there exists a component $G'\subseteq G$ that doesn't exactly contain $|V'|-1$ edges
+
+### Bipartite
+Graph $G$ is **bipartite** $\iff$ there exists a way to color all nodes $v \in V$ with two distinct colors $c_1,c_2$, but without any adjacent nodes having the same color $\forall v' \in N(v): c(v') \neq c(v)$.
+
+## Shortest Path
+
+### Dijkstra
 - **Purpose**: Compute shortest paths from a single source to every other vertex in a non-negatively weighted graph
 - **Description**: Use a min-heap to repeatedly extract the closest vertex and relax its outgoing edges until all shortest distances from the source are determined.
 - **Runtime**: $O(m \log n)$
@@ -499,6 +489,44 @@ vector<vector<ll>> buildAllPairs(const vector<vector<pair<int,int>>>& adj) {
     return D;
 }
 ```
+
+### Bellman-Ford
+
+
+### Floyd-Warshall
+- **Purpose**: Find all shortest Paths in a (weighted) Graph
+- **Description**: Iterates over all vertice combinations
+- **Runtime**: $O(n^3)$
+- **Input**: Adjacency Matrice
+- **Output**: 2D Array `mat` where `mat[i][j]`= shortest distance from vertice $i$ to $j$
+- **Code**:
+```cpp
+// Initialize: mat [i][j] = infty
+for (k = 0; k < n; k++) {
+    for (i = 0; i < n; i++) {
+        for (j = 0; j < n; j++) {
+            if (mat[i][k] + mat[k][j] < mat[i][j]) {
+                mat[i][j] = mat[i][k] + mat[k][j];
+            }
+        }
+    }
+}
+```
+
+# Trees
+**Tree** = ***connected***, ***acyclic*** graph with $|V|=n$ **nodes** and $|E|=n-1$ **edges**.
+- *removing any edge* splits it into **two components**
+- *Adding any edge* creates a **cycle**
+- **Leaf** = node $v$ with $\deg(v)=1$
+- **Root** = node $r$ with no parent
+- **Children** = lower neighbors of a node
+- **Parent** = upper neighbor of a node
+- *each node acts as root of a **subtree***
+
+## Tree Traversal
+
+
+
 
 # Dynamic Programming
 
