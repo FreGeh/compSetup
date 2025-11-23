@@ -277,31 +277,37 @@ To implement you have to go through these steps:
 3. **Shrink Search Space** via assigning new values to $l$ and $r$:
 
 
-- Find *minimum* value `x` such that `condition(x)` is *TRUE* (Lower Bound):
+- Find **minimum**(*first*) value `x` such that `condition(x)` is *TRUE* (Lower Bound):
 ```cpp
+ll ans=-1; // if no element with true for condition is found
+ll l=0,r=n-1;
 while (l <= r) {
     ll m = l+(r-l)/2;
     if (condition(m)) {
+        ans = mid;
         r = m-1; // shrink space to [l, m-1]
     } else {
         l = m+1; // shrink space to [m+1, r]
     }
 }
-return l;
+return ans;
 ```
-- Find *maximum* value `x` such that `condition(x)` is *TRUE* (Upper Bound):
+- Find **maximum**(*last*) value `x` such that `condition(x)` is *TRUE* (Upper Bound):
 ```cpp
+ll ans=-1; // if no element with true for condition is found
+ll l=0,r=n-1;
 while (l <= r) {
     ll m = l+(r-l)/2;
     if (condition(m)) {
+        ans = mid;
         l = m+1; // shrink space to [m+1, r]
     } else {
         r = m-1; // shrink space to [l, m-1]
     }
 }
-return r;
+return ans;
 ```
-- Find *peak* value `x` in an array that increases and then decreases:
+- Find **peak** value `x` in an array that increases and then decreases:
 ```cpp
 while (l < r) {
     ll m = l+(r-l)/2;
