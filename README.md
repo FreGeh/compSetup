@@ -271,23 +271,48 @@ else { cout << *it; } // it is smallest value >= x in A
 - `.begin()` returns iterator to first element (you want to use for iterations)
 
 ## BinarySearch
-Search for biggest element in sorted list. Split up search space each round.
+To implement you have to go through these steps:
+1. **Monotonicity Check**: Is there a YES/NO question about value `m` which is also the same for all values `x > m` or `x < m`
+2. **Search Space**: Define range $[l,r]$ of possible answers (what is the smallest, what is the largest)
+3. **Shrink Search Space** via assigning new values to $l$ and $r$:
+
+
+- Find *minimum* value `x` such that `condition(x)` is *TRUE* (Lower Bound):
 ```cpp
-int binary_search_idx(vector<int>& A, int target) {
-    // A sorted array is stored as a[0], a[1], ..., a[n-1]
-    int l = -1, r = n;
-    while (r - l > 1) {
-        int m = (l + r) / 2;
-        if (k < a[m]) {
-            r = m; // a[l] <= k < a[m] <= a[r]
-        } else {
-            l = m; // a[l] <= a[m] <= k < a[r]
-        }
+while (l <= r) {
+    ll m = l+(r-l)/2;
+    if (condition(m)) {
+        r = m-1; // shrink space to [l, m-1]
+    } else {
+        l = m+1; // shrink space to [m+1, r]
     }
 }
+return l;
 ```
-
-Important to remember is that you can not only do Binary Search on a specific array, but also to find the perfect value for a specific function e.g.
+- Find *maximum* value `x` such that `condition(x)` is *TRUE* (Upper Bound):
+```cpp
+while (l <= r) {
+    ll m = l+(r-l)/2;
+    if (condition(m)) {
+        l = m+1; // shrink space to [m+1, r]
+    } else {
+        r = m-1; // shrink space to [l, m-1]
+    }
+}
+return r;
+```
+- Find *peak* value `x` in an array that increases and then decreases:
+```cpp
+while (l < r) {
+    ll m = l+(r-l)/2;
+    if (A[m] < A[m+1]) {
+        l = m+1; // we are ascending - shrink space to [m+1, r]
+    } else {
+        r = m; // we are descending - shrink space to [l, m]
+    }
+}
+return r;
+```
 
 ## Prefix Sums
 We want to find out the sum of a specific $[l,r)$ interval (subarray $a_l,\dots,a_{r-1}$) in our ($0$-based) array `A`. The naive approach would be to calculate it for each of our $q$ queries. This would lead to $O(n\cdot q)$ runtime.
