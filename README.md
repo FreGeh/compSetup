@@ -347,8 +347,8 @@ exists a witness inside [l, r] that the property needed is not met
 
 # Graphs
 ## Data Structures
-### Adjacency Matrice
-- **Description**: $n \times n$ Matrice. $A_{i,j}=1$ means there is an edge from vertice $i$ to $j$
+### Adjacency Matrix
+- **Description**: $n \times n$ Matrix. $A_{i,j}=1$ means there is an edge from vertex $i$ to $j$
 - **Space**: $O(n^2)$
 - **Count Neighbours**: $O(n)$
 - **Test Edge**: $O(1)$
@@ -374,62 +374,55 @@ exists a witness inside [l, r] that the property needed is not met
 - **Purpose**: Find shortest paths in unweighted Graph (and discover connectivity by layers)
 - **Description**: Level‐by‐level (breadth‐first) exploration from the start vertex $s$
 - **Runtime**: $O(n+m)$
-- **Input**: Adjacency List `vector<vector<int>> &adjlist`, Starting Vertice `s`
+- **Input**: Adjacency List `vector<vector<int>> &adjlist`, Starting vertex `s`
 - **Output**:
 - **Code**:
 ```cpp
-int n = adjlist.size();
+vector<int> dist(n, -1), parent(n, -1);
 queue<int> q;
-q.push(s);
-vector<int> dist(n, INF), parent(n, -1);
+
 dist[s] = 0;
-parent[s] = -1;
+q.push(s);
+
 while (!q.empty()) {
-    int v = q.front();
-    q.pop();
-    for (int w : adjlist[v]) {
-        if (dist[w] == INF) {
-            dist[w] = dist[v] + 1;
-            parent[w] = v;
-            q.push(w);
+    int u = q.front(); q.pop();
+    for (int v : adj[u]) {
+        if (dist[v] == -1) { // Unvisited
+            dist[v] = dist[u] + 1;
+            parent[v] = u; // path reconstruction
+            q.push(v);
         }
     }
-}
-```
-and for the output:
-```cpp
-for (int w = 0; w < n; ++w) {
-    if (parent[w] != -1)
-        cout << parent[w] << " --> " << w << "  (dist=" << dist[w] << ")\n";
 }
 ```
 
 ### Depth-First Search (DFS)
 - **Purpose**: Detect connectivity, reachability, cycles. Construct Paths. Perform topological sorting. Solve *backtracking* problems.
-- **Description**: Explores Graph greedy from starting vertice $s$
+- **Description**: Explores Graph greedy from starting vertex $s$
 - **Runtime**: $O(n+m)$
-- **Input**: Adjacency List `vector<vector<int>> &adjlist`, Starting Vertice `s`
+- **Input**: Adjacency List `vector<vector<int>> &adjlist`, Starting vertex `s`
 - **Output**: DFS Tree
 - **Code**:
 ```cpp
-void visit(int v, vector<bool> &visited, vector<int> &parent) {
-    visited[v] = true;
-    for (int w : adjlist[v]) {
-        if (!visited[w]) {
-            parent[w] = v;
-            visit(w, visited, parent);
-        }
-    }
-}
-```
-to kick of the search and get the output:
-```cpp
 vector<bool> visited(n, false);
 vector<int> parent(n, -1);
-visit(s, visited, parent); // s = Startknoten
+auto dfs = [&](auto &&self, int u) -> void {
+    visited[u] = true;
+    for (int v : adj[u]) {
+        if (!visited[v]) {
+            parent[v] = u;
+            self(self, v);
+        }
+    }
+};
+
+dfs(dfs, s);
+```
+to get the output:
+```cpp
 for (int w = 0; w < n; ++w) {
-  if (parent[w] != -1)
-    cout << parent[w] << " --> " << w << "\n";
+    if (parent[w] != -1)
+        cout << parent[w] << " --> " << w << "\n";
 }
 ```
 
@@ -450,40 +443,34 @@ Graph $G$ is **bipartite** $\iff$ there exists a way to color all nodes $v \in V
 - **Purpose**: Compute shortest paths from a single source to every other vertex in a non-negatively weighted graph
 - **Description**: Use a min-heap to repeatedly extract the closest vertex and relax its outgoing edges until all shortest distances from the source are determined.
 - **Runtime**: $O(m \log n)$
-- **Input**: Adjacency List `vector<vector<pair<int,int>>> &adj`, Starting Vertice `s`
+- **Input**: Adjacency List `vector<vector<pair<int,int>>> &adj`, Starting vertex `s`
 - **Output**: Vector with shortest distance from $s$ to every vertex $v$ `vector<ll> dist(n)`, optionally also `vector<int> prev(n)` for the reconstructed path
 - **Code**:
 ```cpp
-vector<ll> dijkstra(const vector<vector<pair<int,int>>>& adj, int s, vector<int>* parent = nullptr) {
-    int n = adj.size();
-    vector<ll> dist(n, INF);
-    if (parent) parent->assign(n, -1);
-    using State = pair<ll,int>;
-    priority_queue<State, vector<State>, greater<State>> pq;
-    dist[s] = 0;
-    pq.emplace(0, s);
-    while (!pq.empty()) {
-        auto [d, u] = pq.top(); pq.pop();
-        if (d != dist[u]) continue;
-        for (auto [v, w] : adj[u]) {
-            ll alt = d + w;
-            if (alt < dist[v]) {
-                dist[v] = alt;
-                if (parent) (*parent)[v] = u;
-                pq.emplace(alt, v);
-            }
+const ll INF = 1e18;
+vector<ll> dist(n, INF);
+priority_queue<pair<ll,int>, vector<pair<ll,int>>, greater<>> pq; // Min-priority queue storing {distance, node}
+
+dist[s] = 0;
+pq.push({0, s});
+
+while (!pq.empty()) {
+    auto [d, u] = pq.top(); pq.pop();
+    if (d > dist[u]) continue; // Skip outdated states
+    for (auto [v, w] : adj[u]) { // w is weight
+        if (dist[u] + w < dist[v]) {
+            dist[v] = dist[u] + w;
+            pq.push({dist[v], v});
         }
     }
-    return dist;
 }
 ```
-When you have many queries on the same graph, pay the $O(n \cdot m \cdot log(n))$ “up‐front” cost:
+All-Pairs Helper, efficient for sparse graphs: $O(N * M * log(N))$ to pay up-front cost.
 ```cpp
 vector<vector<ll>> buildAllPairs(const vector<vector<pair<int,int>>>& adj) {
     int n = adj.size();
-    vector<vector<ll>> D(n, vector<ll>(n, INF));
+    vector<vector<ll>> D(n); 
     for (int s = 0; s < n; ++s) {
-        D[s][s] = 0;
         D[s] = dijkstra(adj, s);
     }
     return D;
@@ -491,23 +478,43 @@ vector<vector<ll>> buildAllPairs(const vector<vector<pair<int,int>>>& adj) {
 ```
 
 ### Bellman-Ford
+- **Purpose**: Shortest paths from source $s$ in graph with negative weights (detects negative cycles).
+- **Runtime**: $O(n\cdot m)$
+- **Input**: Edge List `struct Edge { int u, v, w; }`
+- **Code**:
+```cpp
+struct Edge { int u, v, w; };
+vector<Edge> edges;
+vector<ll> dist(n, INF);
 
+dist[s] = 0;
+for (int i = 0; i < n - 1; ++i) { // Relax all edges n-1 times
+    for (auto& e : edges) {
+        if (dist[e.u] != INF && dist[e.u] + e.w < dist[e.v])
+            dist[e.v] = dist[e.u] + e.w;
+    }
+}
+for (auto& e : edges) { // Run one more time to detect negative cycle
+    if (dist[e.u] != INF && dist[e.u] + e.w < dist[e.v]) {
+        cout << "Negative Cycle Detected!" << endl;
+        dist[e.v] = -INF; // Mark as arbitrarily small
+    }
+}
+```
 
 ### Floyd-Warshall
 - **Purpose**: Find all shortest Paths in a (weighted) Graph
-- **Description**: Iterates over all vertice combinations
+- **Description**: Iterates over all vertex combinations
 - **Runtime**: $O(n^3)$
-- **Input**: Adjacency Matrice
-- **Output**: 2D Array `mat` where `mat[i][j]`= shortest distance from vertice $i$ to $j$
+- **Input**: Adjacency Matrix
+- **Output**: 2D Array `mat` where `mat[i][j]`= shortest distance from vertex $i$ to $j$
 - **Code**:
 ```cpp
-// Initialize: mat [i][j] = infty
-for (k = 0; k < n; k++) {
-    for (i = 0; i < n; i++) {
-        for (j = 0; j < n; j++) {
-            if (mat[i][k] + mat[k][j] < mat[i][j]) {
-                mat[i][j] = mat[i][k] + mat[k][j];
-            }
+for (int k = 0; k < n; ++k) {
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < n; ++j) { // Check if path through k is shorter
+            if (d[i][k] < INF && d[k][j] < INF) // check to avoid overflow
+                d[i][j] = min(d[i][j], d[i][k] + d[k][j]);
         }
     }
 }
