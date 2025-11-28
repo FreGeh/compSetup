@@ -23,8 +23,10 @@
 # Competition Basics
 
 ## Workflow
-1. `g++ -std=c++20 -O2 -Wall program.cpp -o program`
-2. `./program < input.txt`
+1. **Compile**: `g++ -std=gnu++20 -O2 -Wall -Wextra -pipe -g -fsanitize=address,undefined program.cpp -o program`
+2. **Run**: `./program < input.txt`
+
+If you want to add debug the code via `debug(...)` usages in the `program.cpp`, just add `-DDEBUG` to Compile Call
 
 ## Must Have Header
 ```cpp
@@ -98,6 +100,7 @@ iota(v.begin(), v.end(), 0); // 0,1,2,...
 accumulate(v.begin(), v.end(), 0LL); // sum
 sort(v.begin(), v.end(), greater<>()); // descending
 equal(v.begin(), v.begin()+n/2, v.rbegin()); // palindrome
+A.erase(unique(A.begin(), A.end()), A.end()); // remove duplicates from vector
 ```
 
 ## Bit Manipulation
@@ -114,6 +117,18 @@ equal(v.begin(), v.begin()+n/2, v.rbegin()); // palindrome
 | `char` | $1\text{ B},\;[0,255]$ | tiny integer; ASCII grids, bit tricks |
 | `bool` | $1\text{ B}$ (bit-packed in `vector<bool>`) | logical flags, visited arrays |
 | `size_t` | $8\text{ B},\;[0,\,2^{64}\!-\!1]$ | unsigned type returned by `sizeof`, container sizes |
+
+## Coordinate Compression
+
+When you need to process a lot ($>10^9$) of updates or queries on ranges $[l,r)$ you want to only consider those that are actually important and preprocess them in some way.
+
+0. Determine amount of queries and prepare vectors outside of main function (e.g.`max_val=100005` for $1 \leq Q \leq 10^5$ queries.)
+1. **Collect keys** which are decisive. Like `l` and `r` for range queries $[l,r)$ in an Indices Array `I`.
+2. **Compress** via ***sorting*** + ***removing duplicates*** from `I` and implementing a `getIndex(x)=lower_bound(I.begin(), I.end(), x) - I.begin()` function.
+3. Build **Segment Difference Array** `diff` for queries which update the values: (1-indexed) `diff[getIndex(l)+1] += v;` and where it ends `diff[getIndex(r)+1] -= v`
+4. Determine **Segment Values** via `val[i] = val[i-1] + diff[i]`
+5. When wanting to answer queries over different segments, you also need to save **width of each segment** `widths[i+1] = I[i+1] - I[i]`
+6. Use that for example for ***Prefix sums*** `pre[i] = pre[i-1] + val[i] * widths[i]` 
 
 # Basic Datastructures
 
