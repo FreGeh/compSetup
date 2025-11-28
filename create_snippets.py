@@ -33,5 +33,5 @@ with open(".vscode/cpp.code-snippets", "w") as f:
 
 print('done', file=sys.stderr)
 
-# credit - tourist_algos
+# credit - https://github.com/the-tourist/algo
 # use with 'python3 create_snippets.py'
