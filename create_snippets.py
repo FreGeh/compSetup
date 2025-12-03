@@ -9,8 +9,8 @@ for subdir in os.walk('.'):
     continue
   for filename in subdir[2]:
     name, extension = filename.split('.')
-    if extension != 'cpp':
-      continue
+    if (name == '' or extension == ''): continue
+    if extension != 'cpp': continue
 
     if name in snippets:
       print(f'error: duplicate snippet {name}', file=sys.stderr)
