@@ -3,6 +3,9 @@ using namespace std;
 using ll = long long;
 
 struct Treap {
+    // currently allows duplicates but doesn't support them properly
+    // if you want set: enforce uniqueness in insert
+    // if you want multiset: keep keys unique and store a count per node
     struct Node {
         int key, prio;
         int sz;
