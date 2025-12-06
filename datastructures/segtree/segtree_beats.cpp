@@ -1,7 +1,3 @@
-#include "bits/stdc++.h"
-using namespace std;
-using ll = long long;
-
 struct SegTree_Beats {
     int n;
     vector<ll> seg, max1, max2, min1, min2, lazy;

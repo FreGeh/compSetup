@@ -1,7 +1,3 @@
-#include "bits/stdc++.h"
-using namespace std;
-using ll = long long;
-
 struct Treap {
     struct Node {
         int val, prio;

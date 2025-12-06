@@ -1,7 +1,3 @@
-#include "bits/stdc++.h"
-using namespace std;
-using ll = long long;
-
 struct Treap {
     // currently allows duplicates but doesn't support them properly
     // if you want set: enforce uniqueness in insert

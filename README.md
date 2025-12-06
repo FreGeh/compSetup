@@ -41,6 +41,18 @@ ios::sync_with_stdio(false);
 cin.tie(nullptr);
 ```
 
+## Contest References
+- [KIT (EN)](https://github.com/mzuenni/ContestReference)
+- [KTH (EN)](https://github.com/kth-competitive-programming/kactl)
+- [UH (Romanian)](https://github.com/ivangalbans/TeamReference)
+
+## Libraries
+- [codelibrary](https://github.com/indy256/codelibrary)
+- [atcoder](https://github.com/atcoder/ac-library)
+- [tourist](https://github.com/the-tourist/algo)
+- [spaghetti c++](https://github.com/spaghetti-source/algorithm)
+
+
 ## Estimate Runtime
 | Typical technique | Time complexity | Safe max |
 |-------------------|----------------|----------|

@@ -1,9 +1,5 @@
-#include "bits/stdc++.h"
-using namespace std;
-#define ll long long
-
 vector<ll> range_coords;
-
+//lazycords
 // each leaf represents an interval of specific length so sums are weighted by those
 struct SegTree_Lazy {
     ll n;
