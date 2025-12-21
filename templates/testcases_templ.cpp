@@ -1,8 +1,9 @@
-/**
- *    author:  gemtec
- *    created: $CURRENT_DATE.$CURRENT_MONTH.$CURRENT_YEAR $CURRENT_HOUR:$CURRENT_MINUTE:$CURRENT_SECOND
- *    problem: 
-**/
+/** 
+ *      author:  gemtec
+ *      created: $CURRENT_DATE.$CURRENT_MONTH.$CURRENT_YEAR $CURRENT_HOUR:$CURRENT_MINUTE:$CURRENT_SECOND
+ *      link: 
+ *      idea:
+*/
 #include "bits/stdc++.h"
 using namespace std;
 #define ll long long

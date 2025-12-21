@@ -292,7 +292,7 @@ else { cout << *it; } // it is smallest value >= x in A
 - `.front()` returns reference to first element
 - `.begin()` returns iterator to first element (you want to use for iterations)
 
-## BinarySearch
+## Binary Search
 To implement you have to go through these steps:
 1. **Monotonicity Check**: Is there a YES/NO question about value `m` which is also the same for all values `x > m` or `x < m`
 2. **Search Space**: Define range $[l,r]$ of possible answers (what is the smallest, what is the largest)
