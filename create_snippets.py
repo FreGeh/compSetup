@@ -1,13 +1,20 @@
+# credit - https://github.com/the-tourist/algo
+# use with 'python3 create_snippets.py'
+
 import os
 import json
 import sys
 
 snippets = {}
 
-for subdir in os.walk('.'):
+for subdir in os.walk('data'):
   if subdir[0] == '.' or '.git' in subdir[0]:
     continue
   for filename in subdir[2]:
+    print(f'found {filename}', file=sys.stderr)
+    if filename.count('.') != 1:
+      print(f'found more than one dot in {filename}', file=sys.stderr)
+      continue
     name, extension = filename.split('.')
     if (name == '' or extension == ''): continue
     if extension != 'cpp': continue
@@ -32,6 +39,3 @@ with open(".vscode/cpp.code-snippets", "w") as f:
     f.write(json.dumps(snippets, indent=2))
 
 print('done', file=sys.stderr)
-
-# credit - https://github.com/the-tourist/algo
-# use with 'python3 create_snippets.py'
