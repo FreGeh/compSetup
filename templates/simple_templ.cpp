@@ -3,6 +3,7 @@
  *      created: $CURRENT_DATE.$CURRENT_MONTH.$CURRENT_YEAR $CURRENT_HOUR:$CURRENT_MINUTE:$CURRENT_SECOND
  *      link: 
  *      idea:
+ *      learning:
 */
 #include "bits/stdc++.h"
 using namespace std;
