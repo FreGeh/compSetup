@@ -2,14 +2,14 @@
 # Minimal Competitive Programming Makefile
 # make          - compile main.cpp
 # make run      - run interactively
-# make test     - run all tests/*.in and diff with *.ans
-# make t N=3    - run single test case #3
+# make test     - recursively find/run all *.in & diff with *.out
+# make t N=3    - recursively find and run test case #3
 # ════════════════════════════════════════════════════════════
 
 CXX      := g++
 CXXFLAGS := -std=c++20 -Wall -Wextra -O2 -D_GLIBCXX_DEBUG -DDEBUG -fsanitize=address,undefined
 TASK     := main
-TESTS    := tests
+TESTS    := .
 
 .PHONY: all run t test
 all: $(TASK)
@@ -21,16 +21,17 @@ run: $(TASK)
 	@./$(TASK)
 
 t: $(TASK)
-	@./$(TASK) < $(TESTS)/$(N).in > .tmp.out
-	@diff --color=always -u $(TESTS)/$(N).ans .tmp.out && echo "✅ Test $(N) PASSED" || echo "❌ Test $(N) FAILED"
-	@rm -f .tmp.out
+	@in_f=$$(find $(TESTS) -type f -name "$(N).in" | head -n 1); \
+	[ -z "$$in_f" ] && { echo "❌ Test $(N).in not found"; exit 1; }; \
+	./$(TASK) < "$$in_f" > .tmp.out; \
+	diff --color=always -u "$${in_f%.in}.out" .tmp.out && echo "✅ Test $$in_f PASSED" || echo "❌ Test $$in_f FAILED"; \
+	rm -f .tmp.out
 
 test: $(TASK)
-	@for f in $(TESTS)/*.in; do \
-		n=$$(basename $$f .in); \
-		./$(TASK) < $$f > .tmp.out; \
-		diff -q $(TESTS)/$$n.ans .tmp.out >/dev/null \
-			&& echo "✅ Test $$n PASSED" \
-			|| (echo "❌ Test $$n FAILED" && diff --color=always -u $(TESTS)/$$n.ans .tmp.out); \
+	@for f in $$(find $(TESTS) -type f -name "*.in" | sort); do \
+		./$(TASK) < "$$f" > .tmp.out; \
+		diff -q "$${f%.in}.out" .tmp.out >/dev/null \
+			&& echo "✅ Test $$f PASSED" \
+			|| (echo "❌ Test $$f FAILED" && diff --color=always -u "$${f%.in}.out" .tmp.out); \
 	done
 	@rm -f .tmp.out
