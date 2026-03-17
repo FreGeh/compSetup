@@ -1,0 +1,36 @@
+# ════════════════════════════════════════════════════════════
+# Minimal Competitive Programming Makefile
+# make          - compile main.cpp
+# make run      - run interactively
+# make test     - run all tests/*.in and diff with *.ans
+# make t N=3    - run single test case #3
+# ════════════════════════════════════════════════════════════
+
+CXX      := g++
+CXXFLAGS := -std=c++20 -Wall -Wextra -O2 -D_GLIBCXX_DEBUG -DDEBUG -fsanitize=address,undefined
+TASK     := main
+TESTS    := tests
+
+.PHONY: all run t test
+all: $(TASK)
+
+$(TASK): $(TASK).cpp
+	$(CXX) $(CXXFLAGS) $< -o $@
+
+run: $(TASK)
+	@./$(TASK)
+
+t: $(TASK)
+	@./$(TASK) < $(TESTS)/$(N).in > .tmp.out
+	@diff --color=always -u $(TESTS)/$(N).ans .tmp.out && echo "✅ Test $(N) PASSED" || echo "❌ Test $(N) FAILED"
+	@rm -f .tmp.out
+
+test: $(TASK)
+	@for f in $(TESTS)/*.in; do \
+		n=$$(basename $$f .in); \
+		./$(TASK) < $$f > .tmp.out; \
+		diff -q $(TESTS)/$$n.ans .tmp.out >/dev/null \
+			&& echo "✅ Test $$n PASSED" \
+			|| (echo "❌ Test $$n FAILED" && diff --color=always -u $(TESTS)/$$n.ans .tmp.out); \
+	done
+	@rm -f .tmp.out

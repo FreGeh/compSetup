@@ -12,16 +12,18 @@ struct SegTreeLazy {
     int n = 0;
     vector<Info> st;
     vector<Tag> lz;
+    vector<ll> coords; 
 
-    void init(int n_) {
-        n = n_;
+    void init(const vector<ll>& _coords) {
+        coords = _coords;
+        n = max(0, (int)coords.size() - 1);
         int S = 4 * max(1, n) + 5;
         st.assign(S, Info(0, 0, 0));
         lz.assign(S, Tag(0));
     }
 
-    void build(const vector<ll>& a) {
-        init((int)a.size());
+    void build(const vector<ll>& a, const vector<ll>& _coords) {
+        init(_coords);
         if (n == 0) return;
         build(1, 0, n, a);
     }
@@ -44,12 +46,12 @@ struct SegTreeLazy {
         return query(1, 0, n, l, r).mx;
     }
 
-    int first_geq(int l, int r, ll x) { //first index in [l, r) with value >= x
+    int first_geq(int l, int r, ll x) { 
         if (l >= r || n == 0) return -1;
         return first_geq(1, 0, n, l, r, x);
     }
 
-    int lower_bound_prefix(ll k) { //smallest i with prefix sum a[0..i) >= k (all vals must be pos)
+    int lower_bound_prefix(ll k) { 
         if (n == 0) return 0;
         if (k <= 0) return 0;
         if (st[1].sum < k) return n;
@@ -63,9 +65,8 @@ struct SegTreeLazy {
         return l;
     }
 
-    // maximal r where pred is true for Info([l,r)) (e.g. max_right(l, [&](Info cur){ return cur.mx < X; }))
     template <class F> 
-    int max_right(int l, F pred) { // 
+    int max_right(int l, F pred) { 
         Info cur(0, LLONG_MAX, LLONG_MIN);
         return max_right(1, 0, n, l, pred, cur);
     }
@@ -81,7 +82,9 @@ struct SegTreeLazy {
     void apply_tag(int v, int l, int r, const Tag& t) {
         if (t.empty()) return;
         ll add = t.add;
-        st[v].sum += add * (ll)(r - l);
+        
+        st[v].sum += add * (coords[r] - coords[l]); 
+        
         st[v].mn  += add;
         st[v].mx  += add;
         lz[v].add += add;
@@ -102,7 +105,7 @@ struct SegTreeLazy {
     void build(int v, int l, int r, const vector<ll>& a) {
         if (r - l == 1) {
             ll x = a[l];
-            st[v] = Info(x, x, x);
+            st[v] = Info(x * (coords[r] - coords[l]), x, x); 
             return;
         }
         int m = (l + r) / 2;
@@ -152,5 +155,35 @@ struct SegTreeLazy {
         int res = max_right(v * 2, l, m, ql, pred, cur);
         if (res < m) return res;
         return max_right(v * 2 + 1, m, r, ql, pred, cur);
+    }
+
+    vector<pair<ll, ll>> get_all_above(ll k) {
+        vector<pair<int, int>> res;
+        if (n > 0) get_all_above_rec(1, 0, n, k, res);
+        
+        vector<pair<ll, ll>> merged;
+        for (auto& p : res) {
+            ll real_l = coords[p.first];
+            ll real_r = coords[p.second];
+            
+            if (!merged.empty() && merged.back().second == real_l) {
+                merged.back().second = real_r;
+            } else {
+                merged.push_back({real_l, real_r});
+            }
+        }
+        return merged;
+    }
+
+    void get_all_above_rec(int v, int l, int r, ll k, vector<pair<int, int>>& res) {
+        if (st[v].mx <= k) return;
+        if (st[v].mn > k) {
+            res.push_back({l, r});
+            return;
+        }
+        push(v, l, r);
+        int m = (l + r) / 2;
+        get_all_above_rec(v * 2, l, m, k, res);
+        get_all_above_rec(v * 2 + 1, m, r, k, res);
     }
 };
