@@ -16,16 +16,16 @@ using namespace std;
 #endif
 
 void solve() {
-    ${0}
+  ${0}
 }
 
 int main() {
-    ios::sync_with_stdio(false); 
+  ios::sync_with_stdio(false); 
 #ifndef DEBUG
-    cin.tie(nullptr);
+  cin.tie(nullptr);
 #endif
 
-    int tests; cin >> tests;
-    while (tests-- > 0) solve();
-    return 0;
+  int tests; cin >> tests;
+  while (tests-- > 0) solve();
+  return 0;
 }

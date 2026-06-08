@@ -16,9 +16,9 @@ using namespace std;
 #endif
 
 int main() {
-    ios::sync_with_stdio(false); cin.tie(nullptr);
+  ios::sync_with_stdio(false); cin.tie(nullptr);
 
-    ${0}
+  ${0}
 
-    return 0;
+  return 0;
 }
